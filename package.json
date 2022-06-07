@@ -2,6 +2,7 @@
     "name": "draggable-panel",
     "version": "1.0.0",
     "description": "Vue draggable panel",
+    "author": "Cainier <xingrong.dev@gmail.com>",
     "main": "./dist/draggable-panel.umd.js",
     "module": "./dist/draggable-panel.es.js",
     "exports": {
@@ -10,7 +11,9 @@
             "require": "./dist/draggable-panel.umd.js"
         }
     },
-    "author": "Cainier <xingrong.dev@gmail.com>",
+    "files": [
+        "dist"
+    ],
     "private": false,
     "scripts": {
         "dev": "vite",
