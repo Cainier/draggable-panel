@@ -39,7 +39,7 @@ yarn add draggable-panel
     - Description: Chart data array
     - Required
     - Example:
-      ``` json
+      ```
       [
         ...
         {
