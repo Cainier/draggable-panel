@@ -3,6 +3,22 @@
     "version": "1.0.4",
     "description": "Vue draggable panel",
     "author": "Cainier <xingrong.dev@gmail.com>",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Cainier/draggable-panel.git"
+    },
+    "license": "MIT",
+    "keywords": [
+        "vue",
+        "vue3",
+        "drag",
+        "resize",
+        "draggable",
+        "scale",
+        "zoom",
+        "component",
+        "draggable-panel"
+    ],
     "main": "./dist/draggable-panel.umd.js",
     "module": "./dist/draggable-panel.es.js",
     "files": [
