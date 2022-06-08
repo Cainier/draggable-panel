@@ -30,7 +30,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import DraggablePanel      from './components/draggablePanel'
+// import DraggablePanel      from './components/draggablePanel'
+import DraggablePanel      from '../dist/draggable-panel.es'
 
 export default defineComponent({
     name      : 'App',
