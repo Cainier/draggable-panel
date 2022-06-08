@@ -80,7 +80,7 @@ yarn add draggable-panel
       ```
 * chartStyle: Object
     - Description: Chart custom style
-    - Example: false
+    - Example:
       ``` json
       {
         "background": "#1976D255"
