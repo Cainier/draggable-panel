@@ -15,7 +15,7 @@ var __spreadValues = (a, b) => {
   return a;
 };
 import { defineComponent, ref, computed, onMounted, onBeforeUnmount, openBlock, createElementBlock, normalizeClass, withKeys, withModifiers, createElementVNode, normalizeStyle, Fragment, renderList, renderSlot } from "vue";
-var index_vue_vue_type_style_index_0_scoped_true_lang = /* @__PURE__ */ (() => '.draggable-panel[data-v-34a94c50]{position:relative;width:100%;height:100%;overflow:hidden;background:#EEEEEE;outline:none;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}.draggable-panel.lock .chart-item[data-v-34a94c50]:hover{filter:none}.draggable-panel.lock .chart-item .resizable[data-v-34a94c50]{display:none}.draggable-panel .canvas[data-v-34a94c50]{background:#FFFFFF;box-shadow:0 5px 130px #00000026}.draggable-panel .chart-item[data-v-34a94c50]{position:absolute;background:rgba(25,118,210,.3);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}.draggable-panel .chart-item .content[data-v-34a94c50]{position:relative;width:100%;height:100%;overflow:hidden;z-index:10}.draggable-panel .chart-item[data-v-34a94c50]:hover{filter:brightness(1.05)}.draggable-panel .chart-item:hover .resizable[data-v-34a94c50]{display:block}.draggable-panel .chart-item.moving .resizable[data-v-34a94c50]{display:none}.draggable-panel .chart-item.resizing .resizable[data-v-34a94c50]{display:block}.draggable-panel .chart-item .resizable[data-v-34a94c50]{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:100%;height:100%;z-index:1;display:none}.draggable-panel .chart-item .resizable .resizable-point[data-v-34a94c50]{position:absolute;width:16px;height:16px;display:flex;flex-direction:row;justify-content:center;align-items:center;z-index:20}.draggable-panel .chart-item .resizable .resizable-point[data-v-34a94c50]:after{content:"";display:block;width:8px;height:8px;border:1px solid #1976D2;background:#FFFFFF}.draggable-panel .chart-item .resizable .resizable-line[data-v-34a94c50]{position:absolute;z-index:10}.draggable-panel .chart-item .resizable .resizable-line[data-v-34a94c50]:after{content:"";position:absolute;display:block;background:#1976D2}.draggable-panel .chart-item .resizable .b[data-v-34a94c50],.draggable-panel .chart-item .resizable .d[data-v-34a94c50],.draggable-panel .chart-item .resizable .f[data-v-34a94c50],.draggable-panel .chart-item .resizable .h[data-v-34a94c50]{pointer-events:none}.draggable-panel .chart-item .resizable .a[data-v-34a94c50]{top:0;left:0;transform:translate(-50%,-50%);cursor:nwse-resize}.draggable-panel .chart-item .resizable .b[data-v-34a94c50]{top:0;left:50%;margin-left:-8px;transform:translateY(-50%)}.draggable-panel .chart-item .resizable .c[data-v-34a94c50]{top:0;right:0;transform:translate(50%,-50%);cursor:nesw-resize}.draggable-panel .chart-item .resizable .d[data-v-34a94c50]{top:50%;right:0;margin-top:-8px;transform:translate(50%)}.draggable-panel .chart-item .resizable .e[data-v-34a94c50]{bottom:0;right:0;transform:translate(50%,50%);cursor:nwse-resize}.draggable-panel .chart-item .resizable .f[data-v-34a94c50]{bottom:0;left:50%;margin-left:-8px;transform:translateY(50%)}.draggable-panel .chart-item .resizable .g[data-v-34a94c50]{bottom:0;left:0;transform:translate(-50%,50%);cursor:nesw-resize}.draggable-panel .chart-item .resizable .h[data-v-34a94c50]{left:0;top:50%;margin-top:-8px;transform:translate(-50%)}.draggable-panel .chart-item .resizable .i[data-v-34a94c50]{top:0;left:0;width:100%;height:16px;transform:translateY(-16px);cursor:ns-resize}.draggable-panel .chart-item .resizable .i[data-v-34a94c50]:after{bottom:0;left:0;height:1px;width:100%}.draggable-panel .chart-item .resizable .j[data-v-34a94c50]{right:0;top:0;height:100%;width:16px;transform:translate(16px);cursor:ew-resize}.draggable-panel .chart-item .resizable .j[data-v-34a94c50]:after{top:0;left:0;height:100%;width:1px}.draggable-panel .chart-item .resizable .k[data-v-34a94c50]{bottom:0;left:0;width:100%;height:16px;transform:translateY(16px);cursor:ns-resize}.draggable-panel .chart-item .resizable .k[data-v-34a94c50]:after{top:0;left:0;height:1px;width:100%}.draggable-panel .chart-item .resizable .l[data-v-34a94c50]{left:0;top:0;height:100%;width:16px;transform:translate(-16px);cursor:ew-resize}.draggable-panel .chart-item .resizable .l[data-v-34a94c50]:after{top:0;right:0;height:100%;width:1px}\n')();
+var index_vue_vue_type_style_index_0_scoped_true_lang = /* @__PURE__ */ (() => '.draggable-panel[data-v-105eb206]{position:relative;width:100%;height:100%;overflow:hidden;background:#EEEEEE;outline:none;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}.draggable-panel.lock .chart-item[data-v-105eb206]:hover{filter:none}.draggable-panel.lock .chart-item .resizable[data-v-105eb206]{display:none}.draggable-panel .canvas[data-v-105eb206]{position:relative;background:#FFFFFF;box-shadow:0 5px 130px #00000026}.draggable-panel .canvas[data-v-105eb206]:after{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(25,118,210,.3);visibility:hidden;opacity:0;transition:all .3s;z-index:10000}.draggable-panel .canvas.out-canvas-dragover[data-v-105eb206]:after{visibility:visible;opacity:1}.draggable-panel .chart-item[data-v-105eb206]{position:absolute;background:rgba(25,118,210,.3);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}.draggable-panel .chart-item .content[data-v-105eb206]{position:relative;width:100%;height:100%;overflow:hidden;z-index:10}.draggable-panel .chart-item[data-v-105eb206]:hover{filter:brightness(1.05)}.draggable-panel .chart-item:hover .resizable[data-v-105eb206]{display:block}.draggable-panel .chart-item.moving .resizable[data-v-105eb206]{display:none}.draggable-panel .chart-item.resizing .resizable[data-v-105eb206]{display:block}.draggable-panel .chart-item .resizable[data-v-105eb206]{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:100%;height:100%;z-index:1;display:none}.draggable-panel .chart-item .resizable .resizable-point[data-v-105eb206]{position:absolute;width:16px;height:16px;display:flex;flex-direction:row;justify-content:center;align-items:center;z-index:20}.draggable-panel .chart-item .resizable .resizable-point[data-v-105eb206]:after{content:"";display:block;width:8px;height:8px;border:1px solid #1976D2;background:#FFFFFF}.draggable-panel .chart-item .resizable .resizable-line[data-v-105eb206]{position:absolute;z-index:10}.draggable-panel .chart-item .resizable .resizable-line[data-v-105eb206]:after{content:"";position:absolute;display:block;background:#1976D2}.draggable-panel .chart-item .resizable .b[data-v-105eb206],.draggable-panel .chart-item .resizable .d[data-v-105eb206],.draggable-panel .chart-item .resizable .f[data-v-105eb206],.draggable-panel .chart-item .resizable .h[data-v-105eb206]{pointer-events:none}.draggable-panel .chart-item .resizable .a[data-v-105eb206]{top:0;left:0;transform:translate(-50%,-50%);cursor:nwse-resize}.draggable-panel .chart-item .resizable .b[data-v-105eb206]{top:0;left:50%;margin-left:-8px;transform:translateY(-50%)}.draggable-panel .chart-item .resizable .c[data-v-105eb206]{top:0;right:0;transform:translate(50%,-50%);cursor:nesw-resize}.draggable-panel .chart-item .resizable .d[data-v-105eb206]{top:50%;right:0;margin-top:-8px;transform:translate(50%)}.draggable-panel .chart-item .resizable .e[data-v-105eb206]{bottom:0;right:0;transform:translate(50%,50%);cursor:nwse-resize}.draggable-panel .chart-item .resizable .f[data-v-105eb206]{bottom:0;left:50%;margin-left:-8px;transform:translateY(50%)}.draggable-panel .chart-item .resizable .g[data-v-105eb206]{bottom:0;left:0;transform:translate(-50%,50%);cursor:nesw-resize}.draggable-panel .chart-item .resizable .h[data-v-105eb206]{left:0;top:50%;margin-top:-8px;transform:translate(-50%)}.draggable-panel .chart-item .resizable .i[data-v-105eb206]{top:0;left:0;width:100%;height:16px;transform:translateY(-16px);cursor:ns-resize}.draggable-panel .chart-item .resizable .i[data-v-105eb206]:after{bottom:0;left:0;height:1px;width:100%}.draggable-panel .chart-item .resizable .j[data-v-105eb206]{right:0;top:0;height:100%;width:16px;transform:translate(16px);cursor:ew-resize}.draggable-panel .chart-item .resizable .j[data-v-105eb206]:after{top:0;left:0;height:100%;width:1px}.draggable-panel .chart-item .resizable .k[data-v-105eb206]{bottom:0;left:0;width:100%;height:16px;transform:translateY(16px);cursor:ns-resize}.draggable-panel .chart-item .resizable .k[data-v-105eb206]:after{top:0;left:0;height:1px;width:100%}.draggable-panel .chart-item .resizable .l[data-v-105eb206]{left:0;top:0;height:100%;width:16px;transform:translate(-16px);cursor:ew-resize}.draggable-panel .chart-item .resizable .l[data-v-105eb206]:after{top:0;right:0;height:100%;width:1px}\n')();
 var _export_sfc = (sfc, props) => {
   const target = sfc.__vccOpts || sfc;
   for (const [key, val] of props) {
@@ -84,6 +84,7 @@ const _sfc_main = defineComponent({
     const canvas = ref(null);
     const canvasStatusMove = ref(false);
     const pointerPressed = ref(false);
+    const outCanvasDragover = ref(false);
     const defaultScale = ref(1);
     const scale = ref(1);
     const defaultX = ref(0);
@@ -154,6 +155,7 @@ const _sfc_main = defineComponent({
       canvasY,
       canvasStatusMove,
       pointerPressed,
+      outCanvasDragover,
       canvasStyleComputed,
       chartStyleComputed
     };
@@ -360,6 +362,20 @@ const _sfc_main = defineComponent({
     },
     pointerCancel() {
       this.pointerPressed = false;
+    },
+    dragenterCanvas() {
+      if (this.movingChart || this.resizingChart)
+        return;
+      this.outCanvasDragover = true;
+    },
+    dragleaveCanvas() {
+      this.outCanvasDragover = false;
+    },
+    dropInCanvas(event) {
+      if (this.movingChart || this.resizingChart)
+        return;
+      this.outCanvasDragover = false;
+      this.$emit("canvas-drop", event.offsetX, event.offsetY);
     }
   }
 });
@@ -377,25 +393,30 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     ref: "container",
     autofocus: "",
     onKeydown: [
-      _cache[6] || (_cache[6] = withKeys(($event) => _ctx.canvasStatusMove = true, ["space"])),
-      _cache[7] || (_cache[7] = withModifiers((...args) => _ctx.scaleByKeyboard && _ctx.scaleByKeyboard(...args), ["meta"])),
-      _cache[8] || (_cache[8] = withModifiers((...args) => _ctx.scaleByKeyboard && _ctx.scaleByKeyboard(...args), ["ctrl"]))
+      _cache[9] || (_cache[9] = withKeys(($event) => _ctx.canvasStatusMove = true, ["space"])),
+      _cache[10] || (_cache[10] = withModifiers((...args) => _ctx.scaleByKeyboard && _ctx.scaleByKeyboard(...args), ["meta"])),
+      _cache[11] || (_cache[11] = withModifiers((...args) => _ctx.scaleByKeyboard && _ctx.scaleByKeyboard(...args), ["ctrl"]))
     ],
-    onKeyup: _cache[9] || (_cache[9] = withKeys(($event) => _ctx.canvasStatusMove = false, ["space"])),
+    onKeyup: _cache[12] || (_cache[12] = withKeys(($event) => _ctx.canvasStatusMove = false, ["space"])),
     onWheel: [
-      _cache[10] || (_cache[10] = withModifiers((...args) => _ctx.scaleByWheel && _ctx.scaleByWheel(...args), ["ctrl", "prevent"])),
-      _cache[11] || (_cache[11] = withModifiers((...args) => _ctx.scaleByWheel && _ctx.scaleByWheel(...args), ["meta", "prevent"]))
+      _cache[13] || (_cache[13] = withModifiers((...args) => _ctx.scaleByWheel && _ctx.scaleByWheel(...args), ["ctrl", "prevent"])),
+      _cache[14] || (_cache[14] = withModifiers((...args) => _ctx.scaleByWheel && _ctx.scaleByWheel(...args), ["meta", "prevent"]))
     ],
-    onDragover: _cache[12] || (_cache[12] = withModifiers((...args) => _ctx.dragoverContainer && _ctx.dragoverContainer(...args), ["prevent"]))
+    onDragover: _cache[15] || (_cache[15] = withModifiers((...args) => _ctx.dragoverContainer && _ctx.dragoverContainer(...args), ["prevent"]))
   }, [
     createElementVNode("div", {
-      class: "canvas",
+      class: normalizeClass(["canvas", {
+        "out-canvas-dragover": _ctx.outCanvasDragover
+      }]),
       ref: "canvas",
       style: normalizeStyle(_ctx.canvasStyleComputed),
       onPointerdown: _cache[2] || (_cache[2] = (...args) => _ctx.pointerDown && _ctx.pointerDown(...args)),
       onPointermove: _cache[3] || (_cache[3] = (...args) => _ctx.pointermove && _ctx.pointermove(...args)),
       onPointerup: _cache[4] || (_cache[4] = (...args) => _ctx.pointerUp && _ctx.pointerUp(...args)),
-      onPointercancel: _cache[5] || (_cache[5] = (...args) => _ctx.pointerCancel && _ctx.pointerCancel(...args))
+      onPointercancel: _cache[5] || (_cache[5] = (...args) => _ctx.pointerCancel && _ctx.pointerCancel(...args)),
+      onDragenter: _cache[6] || (_cache[6] = (...args) => _ctx.dragenterCanvas && _ctx.dragenterCanvas(...args)),
+      onDragleave: _cache[7] || (_cache[7] = (...args) => _ctx.dragleaveCanvas && _ctx.dragleaveCanvas(...args)),
+      onDrop: _cache[8] || (_cache[8] = (...args) => _ctx.dropInCanvas && _ctx.dropInCanvas(...args))
     }, [
       (openBlock(true), createElementBlock(Fragment, null, renderList(_ctx.data, (item, index2) => {
         var _a, _b;
@@ -452,9 +473,9 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
           ])
         ], 46, _hoisted_1);
       }), 128))
-    ], 36)
+    ], 38)
   ], 34);
 }
-var index = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-34a94c50"]]);
+var index = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-105eb206"]]);
 export { index as default };
 //# sourceMappingURL=draggable-panel.es.js.map

@@ -1,6 +1,6 @@
 # Vue Draggable Panel
 
-> v1.0.2
+v1.0.4
 
 ---
 
@@ -93,7 +93,15 @@ yarn add draggable-panel
     - Description: Emitted when canvas scale
     - Parameters:
         - scale: Number
-        - Description: Scale ratio
+            - Description: Scale ratio
+
+* @canvas-drop -> function(x, y)
+    - Description: Drag and drop element from outside the draggable-panel to the canvas
+    - Parameters:
+        - x: number
+            - Description: Canvas position X
+        - y: number
+            - Description: Canvas position Y
 
 ### Slots
 

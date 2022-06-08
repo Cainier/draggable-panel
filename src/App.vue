@@ -12,7 +12,8 @@
                          :scale-min="0.5"
                          :scale-max="10"
                          :lock="false"
-                         @canvas-scale="">
+                         @canvas-scale=""
+                         @canvas-drop="dropInCanvas">
             <template #chart="{ chart, index }">
                 <div>
                     Chart - {{ chart.id }}
@@ -25,50 +26,79 @@
                 </div>
             </template>
         </draggable-panel>
+
+        <div class="side">
+            <div class="box"
+                 draggable="true"
+                 @dragstart="dragstartOutDP">
+            </div>
+        </div>
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, App } from 'vue'
-// import DraggablePanel      from './components/draggablePanel'
+<script>
+import { defineComponent, ref, reactive } from 'vue'
+import DraggablePanel                     from './components/draggablePanel/index.vue'
 
-import DraggablePanel           from '../dist/draggable-panel.es'
-import '../dist/style.css'
+// import DraggablePanel           from '../dist/draggable-panel.es'
+// import '../dist/style.css'
 
-// @ts-ignore
-// import DraggablePanel      from 'draggable-panel'
+// import DraggablePanel from 'draggable-panel'
 // import 'draggable-panel/dist/style.css'
-
 
 export default defineComponent({
     name      : 'App',
     components: {
         DraggablePanel,
     },
-    data () {
+    setup() {
+        const chartList = ref([])
+        const offset    = reactive({ x: 0, y: 0 })
+
         return {
-            chartList: [
-                {
-                    id    : 1,
-                    width : 300,
-                    height: 200,
-                    x     : 20,
-                    y     : 20,
-                }, {
-                    id    : 2,
-                    width : 300,
-                    height: 200,
-                    x     : 20,
-                    y     : 240,
-                }, {
-                    id    : 3,
-                    width : 300,
-                    height: 200,
-                    x     : 20,
-                    y     : 460,
-                },
-            ],
+            chartList,
+            offset,
         }
+    },
+    created() {
+        this.chartList = [
+            {
+                id    : 1,
+                width : 300,
+                height: 200,
+                x     : 20,
+                y     : 20,
+            }, {
+                id    : 2,
+                width : 300,
+                height: 200,
+                x     : 20,
+                y     : 240,
+            }, {
+                id    : 3,
+                width : 300,
+                height: 200,
+                x     : 20,
+                y     : 460,
+            },
+        ]
+    },
+    methods: {
+        dragstartOutDP(event) {
+            this.offset = {
+                x: event.offsetX,
+                y: event.offsetY,
+            }
+        },
+        dropInCanvas(x, y) {
+            this.chartList.push({
+                id    : 4,
+                width : 300,
+                height: 200,
+                x     : x - this.offset.x,
+                y     : y - this.offset.y,
+            })
+        },
     },
 })
 </script>
@@ -81,4 +111,24 @@ body
 <style lang="sass" scoped>
 .page
     height: 100vh
+    display: flex
+    flex-direction: row
+    flex-wrap: nowrap
+
+    .draggable-panel
+        width: 100%
+        height: 100%
+
+    .side
+        min-width: 260px
+        height: 100%
+        border-left: 1px solid #DDDDDD
+        background: #FFFFFF
+        padding: 16px
+        box-sizing: border-box
+
+        .box
+            height: 100px
+            background: #EEEEEE
+            border-right: 4px
 </style>

@@ -19,8 +19,26 @@
                 display: none
 
     .canvas
+        position: relative
         background: #FFFFFF
         box-shadow: 0 5px 130px rgba(#000000, .15)
+
+        &::after
+            content: ''
+            position: absolute
+            top: 0
+            left: 0
+            width: 100%
+            height: 100%
+            background: rgba(#1976D2, .3)
+            visibility: hidden
+            opacity: 0
+            transition: all .3s
+            z-index: 10000
+
+        &.out-canvas-dragover::after
+            visibility: visible
+            opacity: 1
 
     .chart-item
         position: absolute

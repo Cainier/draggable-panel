@@ -15,11 +15,17 @@
          @dragover.prevent="dragoverContainer">
         <div class="canvas"
              ref="canvas"
+             :class="{
+                 'out-canvas-dragover': outCanvasDragover,
+             }"
              :style="canvasStyleComputed"
              @pointerdown="pointerDown"
              @pointermove="pointermove"
              @pointerup="pointerUp"
-             @pointercancel="pointerCancel">
+             @pointercancel="pointerCancel"
+             @dragenter="dragenterCanvas"
+             @dragleave="dragleaveCanvas"
+             @drop="dropInCanvas">
             <div class="chart-item"
                  :class="{
                      'moving'  : movingChart?.id   === item.id,
@@ -146,23 +152,24 @@ export default defineComponent({
         },
     },
     setup (props) {
-        const container        = ref<HTMLElement | null>(null)
-        const canvas           = ref<HTMLElement | null>(null)
-        const canvasStatusMove = ref<boolean>(false)
-        const pointerPressed   = ref<boolean>(false)
-        const defaultScale     = ref<number>(1)
-        const scale            = ref<number>(1)
-        const defaultX         = ref<number>(0)
-        const defaultY         = ref<number>(0)
-        const canvasX          = ref<number>(0)
-        const canvasY          = ref<number>(0)
-        const resizeDirection  = ref<string>('')
-        const movingChart      = ref<ChartItem | null>(null)
-        const resizingChart    = ref<ChartItem | null>(null)
-        const diff             = ref<Position>({ x: 0, y: 0 })
-        const point            = ref<Position>({ x: 0, y: 0 })
-        const lastPointermove  = ref<Position>({ x: 0, y: 0 })
-        const chartPosition    = ref<Position>({ x: 0, y: 0 })
+        const container         = ref<HTMLElement | null>(null)
+        const canvas            = ref<HTMLElement | null>(null)
+        const canvasStatusMove  = ref<boolean>(false)
+        const pointerPressed    = ref<boolean>(false)
+        const outCanvasDragover = ref<boolean>(false)
+        const defaultScale      = ref<number>(1)
+        const scale             = ref<number>(1)
+        const defaultX          = ref<number>(0)
+        const defaultY          = ref<number>(0)
+        const canvasX           = ref<number>(0)
+        const canvasY           = ref<number>(0)
+        const resizeDirection   = ref<string>('')
+        const movingChart       = ref<ChartItem | null>(null)
+        const resizingChart     = ref<ChartItem | null>(null)
+        const diff              = ref<Position>({ x: 0, y: 0 })
+        const point             = ref<Position>({ x: 0, y: 0 })
+        const lastPointermove   = ref<Position>({ x: 0, y: 0 })
+        const chartPosition     = ref<Position>({ x: 0, y: 0 })
 
         const canvasStyleComputed = computed(() => ({
             ...props.canvasStyle,
@@ -241,6 +248,7 @@ export default defineComponent({
             canvasY,                // Canvas translateY
             canvasStatusMove,       // Keyboard Space press state
             pointerPressed,         // Pointer press state
+            outCanvasDragover,      // Drag off-canvas el into the canvas
             canvasStyleComputed,    // Canvas style
             chartStyleComputed,     // Chart style
         }
@@ -518,6 +526,25 @@ export default defineComponent({
          */
         pointerCancel () {
             this.pointerPressed = false
+        },
+        dragenterCanvas () {
+            if (this.movingChart || this.resizingChart) return
+
+            this.outCanvasDragover = true
+        },
+        dragleaveCanvas () {
+            this.outCanvasDragover = false
+        },
+        /**
+         * Drop in canvas
+         * @param event
+         */
+        dropInCanvas (event: DragEvent) {
+            if (this.movingChart || this.resizingChart) return
+
+            this.outCanvasDragover = false
+
+            this.$emit('canvas-drop', event.offsetX, event.offsetY)
         },
     },
 })
