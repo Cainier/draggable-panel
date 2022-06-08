@@ -3,8 +3,8 @@
         <draggable-panel class="draggable-panel"
                          :canvas-style="{ background: '#FFFFFF' }"
                          :chart-style="{ background: '#1976D255' }"
-                         :width="1920"
-                         :height="1080"
+                         :width="canvasWidth"
+                         :height="canvasHeight"
                          :padding="32"
                          :data="chartList"
                          :chart-min-width="100"
@@ -15,14 +15,23 @@
                          @canvas-scale=""
                          @canvas-drop="dropInCanvas">
             <template #chart="{ chart, index }">
-                <div>
-                    Chart - {{ chart.id }}
+                <div style="padding: 16px">
+                    ID: {{ chart.id }} (default)
                 </div>
             </template>
 
-            <template #chart-3="{ chart, index }">
-                <div>
-                    <strong>Chart - {{ chart.id }}</strong>
+            <template #chart-8888="{ chart, index }">
+                <div style="padding: 16px; color: #FF0000">
+                    <strong>ID: {{ chart.id }} (slot with id)</strong>
+                    <div style="margin: 8px 0">Hotkey:</div>
+                    <ul>
+                        <li>move: space + drag</li>
+                        <li>scale: ctrl + mousewheel</li>
+                        <li>scale +: ctrl + =</li>
+                        <li>scale -: ctrl + -</li>
+                        <li>reset -: ctrl + 0</li>
+                        <li>real size: ctrl + enter</li>
+                    </ul>
                 </div>
             </template>
         </draggable-panel>
@@ -31,14 +40,16 @@
             <div class="box"
                  draggable="true"
                  @dragstart="dragstartOutDP">
+                Drag me to the canvas
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { defineComponent, ref, reactive } from 'vue'
-import DraggablePanel                     from './components/draggablePanel/index.vue'
+import {defineComponent, ref, reactive} from 'vue'
+
+import DraggablePanel from './components/draggablePanel/index.vue'
 
 // import DraggablePanel           from '../dist/draggable-panel.es'
 // import '../dist/style.css'
@@ -47,15 +58,19 @@ import DraggablePanel                     from './components/draggablePanel/inde
 // import 'draggable-panel/dist/style.css'
 
 export default defineComponent({
-    name      : 'App',
+    name: 'App',
     components: {
         DraggablePanel,
     },
     setup() {
+        const canvasWidth = ref(1920)
+        const canvasHeight = ref(1080)
         const chartList = ref([])
-        const offset    = reactive({ x: 0, y: 0 })
+        const offset = reactive({x: 0, y: 0})
 
         return {
+            canvasWidth,
+            canvasHeight,
             chartList,
             offset,
         }
@@ -63,23 +78,23 @@ export default defineComponent({
     created() {
         this.chartList = [
             {
-                id    : 1,
-                width : 300,
+                id: 1231,
+                width: 300,
                 height: 200,
-                x     : 20,
-                y     : 20,
+                x: 20,
+                y: 20,
             }, {
-                id    : 2,
-                width : 300,
+                id: 3213,
+                width: 300,
                 height: 200,
-                x     : 20,
-                y     : 240,
+                x: 20,
+                y: 240,
             }, {
-                id    : 3,
-                width : 300,
-                height: 200,
-                x     : 20,
-                y     : 460,
+                id: 8888,
+                width: 400,
+                height: 250,
+                x: 20,
+                y: 460,
             },
         ]
     },
@@ -92,11 +107,11 @@ export default defineComponent({
         },
         dropInCanvas(x, y) {
             this.chartList.push({
-                id    : 4,
-                width : 300,
+                id: Number((Math.random() * 10 ** 4).toFixed(0)),
+                width: 300,
                 height: 200,
-                x     : x - this.offset.x,
-                y     : y - this.offset.y,
+                x: x - this.offset.x,
+                y: y - this.offset.y,
             })
         },
     },
@@ -130,5 +145,14 @@ body
         .box
             height: 100px
             background: #EEEEEE
-            border-right: 4px
+            border-radius: 4px
+            padding: 8px
+            border: 1px solid #DDDDDD
+            display: flex
+            justify-content: center
+            align-items: center
+            box-shadow: 0 5px 20px rgba(#333333, .1)
+
+            &:hover
+                filter: brightness(.9)
 </style>

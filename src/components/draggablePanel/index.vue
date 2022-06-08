@@ -10,13 +10,16 @@
          @keydown.meta="scaleByKeyboard"
          @keydown.ctrl="scaleByKeyboard"
          @keyup.space="canvasStatusMove = false"
-         @wheel.ctrl.prevent="scaleByWheel"
-         @wheel.meta.prevent="scaleByWheel"
+         @keydown.prevent.0="resetScale"
+         @keydown.prevent.enter="realScale"
+         @wheel.prevent.ctrl="scaleByWheel"
+         @wheel.prevent.meta="scaleByWheel"
          @dragover.prevent="dragoverContainer">
         <div class="canvas"
              ref="canvas"
              :class="{
                  'out-canvas-dragover': outCanvasDragover,
+                 'moving': canvasStatusMove,
              }"
              :style="canvasStyleComputed"
              @pointerdown="pointerDown"
@@ -46,7 +49,7 @@
                     </slot>
                 </div>
                 <div class="resizable">
-                    <div v-for="direction in ['a', 'c', 'e', 'g']"
+                    <div v-for="direction in ['a', 'b', 'c', 'd']"
                          :key="direction"
                          class="resizable-point"
                          :class="direction"
@@ -55,7 +58,7 @@
                          @dragstart.stop="resizeStart($event, item, direction)">
                     </div>
 
-                    <div v-for="direction in ['b', 'd', 'f', 'h']"
+                    <div v-for="direction in ['e', 'f', 'g', 'h']"
                          :key="direction"
                          :class="direction"
                          class="resizable-point">
@@ -190,10 +193,10 @@ export default defineComponent({
                 return {
                     ...props.chartStyle,
                     ...{
-                        'width' : width + 'px',
-                        'height': height + 'px',
                         // translate better than translate3d
                         // translate3d causes blurry content
+                        'width'    : width + 'px',
+                        'height'   : height + 'px',
                         'transform': `translateX(${x}px) translateY(${y}px)`,
                         'z-index'  : 100 + index,
                     },
@@ -297,7 +300,7 @@ export default defineComponent({
         scaleByKeyboard (event: KeyboardEvent) {
             const { key } = event
 
-            if (['=', '-', '0'].includes(key) && this.lock) return event.preventDefault()
+            if (['=', '-'].includes(key) && this.lock) return event.preventDefault()
 
             if (key === '=') {
                 event.preventDefault()
@@ -318,14 +321,28 @@ export default defineComponent({
 
                 this.scale = scale
             }
+        },
+        /**
+         * Reset scale
+         */
+        resetScale () {
+            if (this.lock) return
 
-            if (key === '0') {
-                event.preventDefault()
+            this.scale   = this.defaultScale
+            this.canvasX = this.defaultX
+            this.canvasY = this.defaultY
+        },
+        /**
+         * Real scale
+         */
+        realScale () {
+            if (this.lock) return
 
-                this.scale   = this.defaultScale
-                this.canvasX = this.defaultX
-                this.canvasY = this.defaultY
-            }
+            const { offsetWidth, offsetHeight } = this.container
+
+            this.scale   = 1
+            this.canvasX = (offsetWidth - this.width) / 2
+            this.canvasY = (offsetHeight - this.height) / 2
         },
         /**
          * Set chart position
@@ -419,17 +436,17 @@ export default defineComponent({
                     resizeHeightWithY()
                 }
 
-                if (this.resizeDirection === 'c') {
+                if (this.resizeDirection === 'b') {
                     resizeWidth()
                     resizeHeightWithY()
                 }
 
-                if (this.resizeDirection === 'e') {
+                if (this.resizeDirection === 'c') {
                     resizeWidth()
                     resizeHeight()
                 }
 
-                if (this.resizeDirection === 'g') {
+                if (this.resizeDirection === 'd') {
                     resizeWidthWithX()
                     resizeHeight()
                 }
@@ -456,6 +473,7 @@ export default defineComponent({
             const empty = document.createElement('div')
             event.dataTransfer.setDragImage(empty, 0, 0)
             event.dataTransfer.effectAllowed = 'move'
+            event.dataTransfer.dropEffect    = 'move'
 
             this.movingChart = chart
         },
@@ -477,6 +495,7 @@ export default defineComponent({
 
             const empty = document.createElement('div')
             event.dataTransfer.setDragImage(empty, 0, 0)
+            event.dataTransfer.dropEffect    = 'move'
             event.dataTransfer.effectAllowed = 'move'
 
             this.resizingChart   = chart

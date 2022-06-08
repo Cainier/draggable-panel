@@ -10,6 +10,9 @@
     -moz-user-select: none
     -ms-user-select: none
 
+    *
+        outline: none
+
     &.lock
         .chart-item
             &:hover
@@ -22,6 +25,9 @@
         position: relative
         background: #FFFFFF
         box-shadow: 0 5px 130px rgba(#000000, .15)
+
+        &.moving
+            cursor: move
 
         &::after
             content: ''
@@ -68,14 +74,6 @@
         .resizable
             $size: 16px
             $offset: -8px
-
-            position: absolute
-            left: 50%
-            top: 50%
-            transform: translate(-50%, -50%)
-            width: 100%
-            height: 100%
-            z-index: 1
             display: none
 
             .resizable-point
@@ -93,21 +91,22 @@
                     display: block
                     width: 8px
                     height: 8px
-                    border: 1px solid #1976D2
+                    border: 2px solid #1976D2
                     background: #FFFFFF
 
             .resizable-line
                 position: absolute
+                box-sizing: border-box
                 z-index: 10
 
                 &::after
                     content: ''
-                    position: absolute
                     display: block
+                    width: 100%
+                    height: 100%
                     background: #1976D2
 
-            .b, .d, .f, .h
-                pointer-events: none
+            // Point control
 
             .a
                 top: 0
@@ -117,39 +116,44 @@
 
             .b
                 top: 0
-                left: 50%
-                margin-left: $offset
-                transform: translate(0, -50%)
-
-            .c
-                top: 0
                 right: 0
                 transform: translate(50%, -50%)
                 cursor: nesw-resize
 
-            .d
-                top: 50%
-                right: 0
-                margin-top: $offset
-                transform: translate(50%, 0)
-
-            .e
+            .c
                 bottom: 0
                 right: 0
                 transform: translate(50%, 50%)
                 cursor: nwse-resize
 
-            .f
-                bottom: 0
-                left: 50%
-                margin-left: $offset
-                transform: translate(0, 50%)
-
-            .g
+            .d
                 bottom: 0
                 left: 0
                 transform: translate(-50%, 50%)
                 cursor: nesw-resize
+
+            // Point center
+
+            .e, .f, .g, .h
+                pointer-events: none
+
+            .e
+                top: 0
+                left: 50%
+                margin-left: $offset
+                transform: translate(0, -50%)
+
+            .f
+                top: 50%
+                right: 0
+                margin-top: $offset
+                transform: translate(50%, 0)
+
+            .g
+                bottom: 0
+                left: 50%
+                margin-left: $offset
+                transform: translate(0, 50%)
 
             .h
                 left: 0
@@ -160,55 +164,47 @@
             .i
                 top: 0
                 left: 0
-                width: 100%
-                height: $size
-                transform: translateY(-$size)
+                width: 100% !important
+                height: 8px
+                padding-top: 3px
+                padding-bottom: 3px
+                padding-left: 0 !important
+                padding-right: 0 !important
+                transform: translateY(-50%)
                 cursor: ns-resize
-
-                &::after
-                    bottom: 0
-                    left: 0
-                    height: 1px
-                    width: 100%
 
             .j
                 right: 0
                 top: 0
-                height: 100%
-                width: $size
-                transform: translateX($size)
+                height: 100% !important
+                width: 8px
+                padding-top: 0 !important
+                padding-bottom: 0 !important
+                padding-left: 3px
+                padding-right: 3px
+                transform: translateX(50%)
                 cursor: ew-resize
-
-                &::after
-                    top: 0
-                    left: 0
-                    height: 100%
-                    width: 1px
 
             .k
                 bottom: 0
                 left: 0
-                width: 100%
-                height: $size
-                transform: translateY($size)
+                width: 100% !important
+                height: 8px
+                padding-top: 3px
+                padding-bottom: 3px
+                padding-left: 0 !important
+                padding-right: 0 !important
+                transform: translateY(50%)
                 cursor: ns-resize
-
-                &::after
-                    top: 0
-                    left: 0
-                    height: 1px
-                    width: 100%
 
             .l
                 left: 0
                 top: 0
-                height: 100%
-                width: $size
-                transform: translateX(-$size)
+                height: 100% !important
+                width: 8px
+                padding-top: 0 !important
+                padding-bottom: 0 !important
+                padding-left: 3px
+                padding-right: 3px
+                transform: translateX(-50%)
                 cursor: ew-resize
-
-                &::after
-                    top: 0
-                    right: 0
-                    height: 100%
-                    width: 1px
