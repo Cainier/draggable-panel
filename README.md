@@ -1,6 +1,6 @@
 # Vue Draggable Panel
 
-> v1.0.1
+> v1.0.2
 
 ---
 
@@ -135,8 +135,9 @@ yarn add draggable-panel
     </div>
 </template>
 
-<script lang="ts">
+<script>
 import DraggablePanel from 'draggable-panel'
+import 'draggable-panel/dist/style.css'
 
 export default defineComponent({
     name      : 'Demo',

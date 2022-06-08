@@ -20,12 +20,4 @@ export default defineConfig({
         },
     },
     plugins: [vue()],
-    css    : {
-        preprocessorOptions: {
-            sass: {
-                javascriptEnabled: true,
-                additionalData   : '@import "./src/components/draggablePanel/index.sass"',
-            },
-        },
-    },
 })

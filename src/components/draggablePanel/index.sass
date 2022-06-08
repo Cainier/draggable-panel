@@ -1,16 +1,14 @@
-*
-    outline: none
-    -webkit-touch-callout: none
-    -webkit-user-select: none
-    -moz-user-select: none
-    -ms-user-select: none
-
 .draggable-panel
     position: relative
     width: 100%
     height: 100%
     overflow: hidden
     background: #EEEEEE
+    outline: none
+    -webkit-touch-callout: none
+    -webkit-user-select: none
+    -moz-user-select: none
+    -ms-user-select: none
 
     &.lock
         .chart-item
@@ -20,179 +18,179 @@
             .resizable
                 display: none
 
-.canvas
-    background: #FFFFFF
-    box-shadow: 0 5px 130px rgba(#000000, .15)
+    .canvas
+        background: #FFFFFF
+        box-shadow: 0 5px 130px rgba(#000000, .15)
 
-.chart-item
-    position: absolute
-    background: rgba(#1976D2, .3)
-    backdrop-filter: blur(10px)
-    -webkit-backdrop-filter: blur(10px)
-
-    .content
-        position: relative
-        width: 100%
-        height: 100%
-        overflow: hidden
-        z-index: 10
-
-    &:hover
-        filter: brightness(1.05)
-
-        .resizable
-            display: block
-
-    &.moving .resizable
-        display: none
-
-    &.resizing .resizable
-        display: block
-
-    .resizable
-        $size: 16px
-        $offset: -8px
-
+    .chart-item
         position: absolute
-        left: 50%
-        top: 50%
-        transform: translate(-50%, -50%)
-        width: 100%
-        height: 100%
-        z-index: 1
-        display: none
+        background: rgba(#1976D2, .3)
+        backdrop-filter: blur(10px)
+        -webkit-backdrop-filter: blur(10px)
 
-        .resizable-point
-            position: absolute
-            width: $size
-            height: $size
-            display: flex
-            flex-direction: row
-            justify-content: center
-            align-items: center
-            z-index: 20
-
-            &::after
-                content: ''
-                display: block
-                width: 8px
-                height: 8px
-                border: 1px solid #1976D2
-                background: #FFFFFF
-
-        .resizable-line
-            position: absolute
+        .content
+            position: relative
+            width: 100%
+            height: 100%
+            overflow: hidden
             z-index: 10
 
-            &::after
-                content: ''
-                position: absolute
+        &:hover
+            filter: brightness(1.05)
+
+            .resizable
                 display: block
-                background: #1976D2
 
-        .b, .d, .f, .h
-            pointer-events: none
+        &.moving .resizable
+            display: none
 
-        .a
-            top: 0
-            left: 0
+        &.resizing .resizable
+            display: block
+
+        .resizable
+            $size: 16px
+            $offset: -8px
+
+            position: absolute
+            left: 50%
+            top: 50%
             transform: translate(-50%, -50%)
-            cursor: nwse-resize
-
-        .b
-            top: 0
-            left: 50%
-            margin-left: $offset
-            transform: translate(0, -50%)
-
-        .c
-            top: 0
-            right: 0
-            transform: translate(50%, -50%)
-            cursor: nesw-resize
-
-        .d
-            top: 50%
-            right: 0
-            margin-top: $offset
-            transform: translate(50%, 0)
-
-        .e
-            bottom: 0
-            right: 0
-            transform: translate(50%, 50%)
-            cursor: nwse-resize
-
-        .f
-            bottom: 0
-            left: 50%
-            margin-left: $offset
-            transform: translate(0, 50%)
-
-        .g
-            bottom: 0
-            left: 0
-            transform: translate(-50%, 50%)
-            cursor: nesw-resize
-
-        .h
-            left: 0
-            top: 50%
-            margin-top: $offset
-            transform: translate(-50%, 0)
-
-        .i
-            top: 0
-            left: 0
             width: 100%
-            height: $size
-            transform: translateY(-$size)
-            cursor: ns-resize
-
-            &::after
-                bottom: 0
-                left: 0
-                height: 1px
-                width: 100%
-
-        .j
-            right: 0
-            top: 0
             height: 100%
-            width: $size
-            transform: translateX($size)
-            cursor: ew-resize
+            z-index: 1
+            display: none
 
-            &::after
+            .resizable-point
+                position: absolute
+                width: $size
+                height: $size
+                display: flex
+                flex-direction: row
+                justify-content: center
+                align-items: center
+                z-index: 20
+
+                &::after
+                    content: ''
+                    display: block
+                    width: 8px
+                    height: 8px
+                    border: 1px solid #1976D2
+                    background: #FFFFFF
+
+            .resizable-line
+                position: absolute
+                z-index: 10
+
+                &::after
+                    content: ''
+                    position: absolute
+                    display: block
+                    background: #1976D2
+
+            .b, .d, .f, .h
+                pointer-events: none
+
+            .a
                 top: 0
                 left: 0
-                height: 100%
-                width: 1px
+                transform: translate(-50%, -50%)
+                cursor: nwse-resize
 
-        .k
-            bottom: 0
-            left: 0
-            width: 100%
-            height: $size
-            transform: translateY($size)
-            cursor: ns-resize
-
-            &::after
+            .b
                 top: 0
-                left: 0
-                height: 1px
-                width: 100%
+                left: 50%
+                margin-left: $offset
+                transform: translate(0, -50%)
 
-        .l
-            left: 0
-            top: 0
-            height: 100%
-            width: $size
-            transform: translateX(-$size)
-            cursor: ew-resize
-
-            &::after
+            .c
                 top: 0
                 right: 0
+                transform: translate(50%, -50%)
+                cursor: nesw-resize
+
+            .d
+                top: 50%
+                right: 0
+                margin-top: $offset
+                transform: translate(50%, 0)
+
+            .e
+                bottom: 0
+                right: 0
+                transform: translate(50%, 50%)
+                cursor: nwse-resize
+
+            .f
+                bottom: 0
+                left: 50%
+                margin-left: $offset
+                transform: translate(0, 50%)
+
+            .g
+                bottom: 0
+                left: 0
+                transform: translate(-50%, 50%)
+                cursor: nesw-resize
+
+            .h
+                left: 0
+                top: 50%
+                margin-top: $offset
+                transform: translate(-50%, 0)
+
+            .i
+                top: 0
+                left: 0
+                width: 100%
+                height: $size
+                transform: translateY(-$size)
+                cursor: ns-resize
+
+                &::after
+                    bottom: 0
+                    left: 0
+                    height: 1px
+                    width: 100%
+
+            .j
+                right: 0
+                top: 0
                 height: 100%
-                width: 1px
+                width: $size
+                transform: translateX($size)
+                cursor: ew-resize
+
+                &::after
+                    top: 0
+                    left: 0
+                    height: 100%
+                    width: 1px
+
+            .k
+                bottom: 0
+                left: 0
+                width: 100%
+                height: $size
+                transform: translateY($size)
+                cursor: ns-resize
+
+                &::after
+                    top: 0
+                    left: 0
+                    height: 1px
+                    width: 100%
+
+            .l
+                left: 0
+                top: 0
+                height: 100%
+                width: $size
+                transform: translateX(-$size)
+                cursor: ew-resize
+
+                &::after
+                    top: 0
+                    right: 0
+                    height: 100%
+                    width: 1px

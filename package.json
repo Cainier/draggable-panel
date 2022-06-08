@@ -1,16 +1,10 @@
 {
     "name": "draggable-panel",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Vue draggable panel",
     "author": "Cainier <xingrong.dev@gmail.com>",
     "main": "./dist/draggable-panel.umd.js",
     "module": "./dist/draggable-panel.es.js",
-    "exports": {
-        ".": {
-            "import": "./dist/draggable-panel.es.js",
-            "require": "./dist/draggable-panel.umd.js"
-        }
-    },
     "files": [
         "dist"
     ],
@@ -21,6 +15,7 @@
         "preview": "vite preview"
     },
     "dependencies": {
+        "draggable-panel": "^1.0.1",
         "sass": "^1.52.2",
         "typescript": "^4.7.3",
         "vue": "^3.2.25"

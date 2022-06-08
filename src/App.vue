@@ -29,9 +29,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, App } from 'vue'
 // import DraggablePanel      from './components/draggablePanel'
-import DraggablePanel      from '../dist/draggable-panel.es'
+
+import DraggablePanel           from '../dist/draggable-panel.es'
+import '../dist/style.css'
+
+// @ts-ignore
+// import DraggablePanel      from 'draggable-panel'
+// import 'draggable-panel/dist/style.css'
+
 
 export default defineComponent({
     name      : 'App',
@@ -74,10 +81,4 @@ body
 <style lang="sass" scoped>
 .page
     height: 100vh
-
-.draggable-panel
-    background: #EEEEEE
-
-.draggable-canvas
-    background: #1D1D1D
 </style>
