@@ -21,6 +21,6 @@ git add -A
 git commit -m 'deploy'
 
 # Deploy example
-git push -f git@github.com:Cainier/draggable-panel.git main:example
+git push -f git@github.com:Cainier/draggable-panel.git main:gh-pages
 
 cd -

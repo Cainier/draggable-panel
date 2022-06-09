@@ -8,12 +8,29 @@
 
 https://cainier.github.io/draggable-panel
 
+![image](public/example.gif)
+
+## Example
+
+https://github.com/Cainier/draggable-panel/blob/main/src/App.vue
+
 ## Features
 
 1. Canvas scale
 2. Canvas move
 3. Chart item scale
 4. Chart item resize
+
+## Hotkey
+
+> Ctrl can be replaced by Command
+
+* **Move**: Space + Drag
+* **Scale**: Ctrl + Mousewheel
+* **Scale +**: Ctrl + =
+* **Scale -**: Ctrl + -
+* **Reset**: Ctrl + 0
+* **Real Size**: Ctrl + Enter
 
 ## Installation
 
@@ -127,59 +144,6 @@ yarn add draggable-panel
           <div>{{ chart }}</div>
       </template>
       ```
-
-## Example
-
-``` vue
-<template>
-    <div style="height: 100vh">
-        <draggable-panel :width="1920"
-                         :height="1080"
-                         :data="chartList">
-            <template #chart="{ chart, index }">
-                <div>{{ chart.id }}</div>
-            </template>
-        </draggable-panel>
-    </div>
-</template>
-
-<script>
-import DraggablePanel from 'draggable-panel'
-import 'draggable-panel/dist/style.css'
-
-export default defineComponent({
-    name      : 'Demo',
-    components: {
-        DraggablePanel,
-    },
-    data () {
-        return {
-            chartList: [
-                {
-                    id    : 1,
-                    width : 300,
-                    height: 200,
-                    x     : 20,
-                    y     : 20,
-                }, {
-                    id    : 2,
-                    width : 300,
-                    height: 200,
-                    x     : 20,
-                    y     : 240,
-                }, {
-                    id    : 3,
-                    width : 300,
-                    height: 200,
-                    x     : 20,
-                    y     : 460,
-                },
-            ],
-        }
-    },
-})
-</script>
-```
 
 ## Thanks For
 
