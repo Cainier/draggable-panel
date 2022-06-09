@@ -49,11 +49,10 @@
 <script>
 import { defineComponent, ref, reactive } from 'vue'
 
+// Dev draggable-panel
 import DraggablePanel from './components/draggablePanel/index.vue'
 
-// import DraggablePanel           from '../dist/draggable-panel.es'
-// import '../dist/style.css'
-
+// Use in your project
 // import DraggablePanel from 'draggable-panel'
 // import 'draggable-panel/dist/style.css'
 

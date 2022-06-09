@@ -6,9 +6,6 @@ set -e
 # Build lib
 npm run build:lib
 
-# Publish lib
-npm publish
-
 # Build example
 npm run build:example
 

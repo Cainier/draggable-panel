@@ -328,23 +328,29 @@ const _sfc_main = defineComponent({
     chartDragstart(event, chart) {
       if (!event.dataTransfer)
         return;
-      const empty = document.createElement("div");
+      const empty = document.createElement("canvas");
+      empty.setAttribute("data-action", "empty");
       event.dataTransfer.setDragImage(empty, 0, 0);
       event.dataTransfer.effectAllowed = "move";
       event.dataTransfer.dropEffect = "move";
+      document.body.appendChild(empty);
       this.movingChart = chart;
     },
     chartDragend() {
+      this.container.focus();
       this.movingChart = null;
       this.resizingChart = null;
+      document.querySelectorAll('canvas[data-action="empty"]').forEach((item) => item.remove());
     },
     resizeStart(event, chart, direction) {
       if (!event.dataTransfer)
         return;
-      const empty = document.createElement("div");
+      const empty = document.createElement("canvas");
+      empty.setAttribute("data-action", "empty");
       event.dataTransfer.setDragImage(empty, 0, 0);
       event.dataTransfer.dropEffect = "move";
       event.dataTransfer.effectAllowed = "move";
+      document.body.appendChild(empty);
       this.resizingChart = chart;
       this.resizeDirection = direction;
     },
