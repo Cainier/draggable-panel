@@ -24,7 +24,7 @@ const envLib = defineConfig({
 })
 
 const envExample = defineConfig({
-    base   : '/draggable-panel/',
+    base   : 'draggable-panel',
     build  : {
         outDir: 'example',
     },
