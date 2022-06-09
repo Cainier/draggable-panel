@@ -15,7 +15,7 @@ var __spreadValues = (a, b) => {
   return a;
 };
 import { defineComponent, ref, computed, onMounted, onBeforeUnmount, openBlock, createElementBlock, normalizeClass, withKeys, withModifiers, createElementVNode, normalizeStyle, Fragment, renderList, renderSlot } from "vue";
-var index_vue_vue_type_style_index_0_scoped_true_lang = /* @__PURE__ */ (() => '.draggable-panel[data-v-105eb206]{position:relative;width:100%;height:100%;overflow:hidden;background:#EEEEEE;outline:none;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}.draggable-panel.lock .chart-item[data-v-105eb206]:hover{filter:none}.draggable-panel.lock .chart-item .resizable[data-v-105eb206]{display:none}.draggable-panel .canvas[data-v-105eb206]{position:relative;background:#FFFFFF;box-shadow:0 5px 130px #00000026}.draggable-panel .canvas[data-v-105eb206]:after{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(25,118,210,.3);visibility:hidden;opacity:0;transition:all .3s;z-index:10000}.draggable-panel .canvas.out-canvas-dragover[data-v-105eb206]:after{visibility:visible;opacity:1}.draggable-panel .chart-item[data-v-105eb206]{position:absolute;background:rgba(25,118,210,.3);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}.draggable-panel .chart-item .content[data-v-105eb206]{position:relative;width:100%;height:100%;overflow:hidden;z-index:10}.draggable-panel .chart-item[data-v-105eb206]:hover{filter:brightness(1.05)}.draggable-panel .chart-item:hover .resizable[data-v-105eb206]{display:block}.draggable-panel .chart-item.moving .resizable[data-v-105eb206]{display:none}.draggable-panel .chart-item.resizing .resizable[data-v-105eb206]{display:block}.draggable-panel .chart-item .resizable[data-v-105eb206]{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:100%;height:100%;z-index:1;display:none}.draggable-panel .chart-item .resizable .resizable-point[data-v-105eb206]{position:absolute;width:16px;height:16px;display:flex;flex-direction:row;justify-content:center;align-items:center;z-index:20}.draggable-panel .chart-item .resizable .resizable-point[data-v-105eb206]:after{content:"";display:block;width:8px;height:8px;border:1px solid #1976D2;background:#FFFFFF}.draggable-panel .chart-item .resizable .resizable-line[data-v-105eb206]{position:absolute;z-index:10}.draggable-panel .chart-item .resizable .resizable-line[data-v-105eb206]:after{content:"";position:absolute;display:block;background:#1976D2}.draggable-panel .chart-item .resizable .b[data-v-105eb206],.draggable-panel .chart-item .resizable .d[data-v-105eb206],.draggable-panel .chart-item .resizable .f[data-v-105eb206],.draggable-panel .chart-item .resizable .h[data-v-105eb206]{pointer-events:none}.draggable-panel .chart-item .resizable .a[data-v-105eb206]{top:0;left:0;transform:translate(-50%,-50%);cursor:nwse-resize}.draggable-panel .chart-item .resizable .b[data-v-105eb206]{top:0;left:50%;margin-left:-8px;transform:translateY(-50%)}.draggable-panel .chart-item .resizable .c[data-v-105eb206]{top:0;right:0;transform:translate(50%,-50%);cursor:nesw-resize}.draggable-panel .chart-item .resizable .d[data-v-105eb206]{top:50%;right:0;margin-top:-8px;transform:translate(50%)}.draggable-panel .chart-item .resizable .e[data-v-105eb206]{bottom:0;right:0;transform:translate(50%,50%);cursor:nwse-resize}.draggable-panel .chart-item .resizable .f[data-v-105eb206]{bottom:0;left:50%;margin-left:-8px;transform:translateY(50%)}.draggable-panel .chart-item .resizable .g[data-v-105eb206]{bottom:0;left:0;transform:translate(-50%,50%);cursor:nesw-resize}.draggable-panel .chart-item .resizable .h[data-v-105eb206]{left:0;top:50%;margin-top:-8px;transform:translate(-50%)}.draggable-panel .chart-item .resizable .i[data-v-105eb206]{top:0;left:0;width:100%;height:16px;transform:translateY(-16px);cursor:ns-resize}.draggable-panel .chart-item .resizable .i[data-v-105eb206]:after{bottom:0;left:0;height:1px;width:100%}.draggable-panel .chart-item .resizable .j[data-v-105eb206]{right:0;top:0;height:100%;width:16px;transform:translate(16px);cursor:ew-resize}.draggable-panel .chart-item .resizable .j[data-v-105eb206]:after{top:0;left:0;height:100%;width:1px}.draggable-panel .chart-item .resizable .k[data-v-105eb206]{bottom:0;left:0;width:100%;height:16px;transform:translateY(16px);cursor:ns-resize}.draggable-panel .chart-item .resizable .k[data-v-105eb206]:after{top:0;left:0;height:1px;width:100%}.draggable-panel .chart-item .resizable .l[data-v-105eb206]{left:0;top:0;height:100%;width:16px;transform:translate(-16px);cursor:ew-resize}.draggable-panel .chart-item .resizable .l[data-v-105eb206]:after{top:0;right:0;height:100%;width:1px}\n')();
+var index_vue_vue_type_style_index_0_scoped_true_lang = /* @__PURE__ */ (() => '.draggable-panel[data-v-4ced9f6c]{position:relative;width:100%;height:100%;overflow:hidden;background:#EEEEEE;outline:none;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}.draggable-panel *[data-v-4ced9f6c]{outline:none}.draggable-panel.lock .chart-item[data-v-4ced9f6c]:hover{filter:none}.draggable-panel.lock .chart-item .resizable[data-v-4ced9f6c]{display:none}.draggable-panel .canvas[data-v-4ced9f6c]{position:relative;background:#FFFFFF;box-shadow:0 5px 130px #00000026}.draggable-panel .canvas.moving[data-v-4ced9f6c]{cursor:move}.draggable-panel .canvas[data-v-4ced9f6c]:after{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(25,118,210,.3);visibility:hidden;opacity:0;transition:all .3s;z-index:10000}.draggable-panel .canvas.out-canvas-dragover[data-v-4ced9f6c]:after{visibility:visible;opacity:1}.draggable-panel .chart-item[data-v-4ced9f6c]{position:absolute;background:rgba(25,118,210,.3);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}.draggable-panel .chart-item .content[data-v-4ced9f6c]{position:relative;width:100%;height:100%;overflow:hidden;z-index:10}.draggable-panel .chart-item[data-v-4ced9f6c]:hover{filter:brightness(1.05)}.draggable-panel .chart-item:hover .resizable[data-v-4ced9f6c]{display:block}.draggable-panel .chart-item.moving .resizable[data-v-4ced9f6c]{display:none}.draggable-panel .chart-item.resizing .resizable[data-v-4ced9f6c]{display:block}.draggable-panel .chart-item .resizable[data-v-4ced9f6c]{display:none}.draggable-panel .chart-item .resizable .resizable-point[data-v-4ced9f6c]{position:absolute;width:16px;height:16px;display:flex;flex-direction:row;justify-content:center;align-items:center;z-index:20}.draggable-panel .chart-item .resizable .resizable-point[data-v-4ced9f6c]:after{content:"";display:block;width:8px;height:8px;border:2px solid #1976D2;background:#FFFFFF}.draggable-panel .chart-item .resizable .resizable-line[data-v-4ced9f6c]{position:absolute;box-sizing:border-box;z-index:10}.draggable-panel .chart-item .resizable .resizable-line[data-v-4ced9f6c]:after{content:"";display:block;width:100%;height:100%;background:#1976D2}.draggable-panel .chart-item .resizable .a[data-v-4ced9f6c]{top:0;left:0;transform:translate(-50%,-50%);cursor:nwse-resize}.draggable-panel .chart-item .resizable .b[data-v-4ced9f6c]{top:0;right:0;transform:translate(50%,-50%);cursor:nesw-resize}.draggable-panel .chart-item .resizable .c[data-v-4ced9f6c]{bottom:0;right:0;transform:translate(50%,50%);cursor:nwse-resize}.draggable-panel .chart-item .resizable .d[data-v-4ced9f6c]{bottom:0;left:0;transform:translate(-50%,50%);cursor:nesw-resize}.draggable-panel .chart-item .resizable .e[data-v-4ced9f6c],.draggable-panel .chart-item .resizable .f[data-v-4ced9f6c],.draggable-panel .chart-item .resizable .g[data-v-4ced9f6c],.draggable-panel .chart-item .resizable .h[data-v-4ced9f6c]{pointer-events:none}.draggable-panel .chart-item .resizable .e[data-v-4ced9f6c]{top:0;left:50%;margin-left:-8px;transform:translateY(-50%)}.draggable-panel .chart-item .resizable .f[data-v-4ced9f6c]{top:50%;right:0;margin-top:-8px;transform:translate(50%)}.draggable-panel .chart-item .resizable .g[data-v-4ced9f6c]{bottom:0;left:50%;margin-left:-8px;transform:translateY(50%)}.draggable-panel .chart-item .resizable .h[data-v-4ced9f6c]{left:0;top:50%;margin-top:-8px;transform:translate(-50%)}.draggable-panel .chart-item .resizable .i[data-v-4ced9f6c]{top:0;left:0;width:100%!important;height:8px;padding-top:3px;padding-bottom:3px;padding-left:0!important;padding-right:0!important;transform:translateY(-50%);cursor:ns-resize}.draggable-panel .chart-item .resizable .j[data-v-4ced9f6c]{right:0;top:0;height:100%!important;width:8px;padding-top:0!important;padding-bottom:0!important;padding-left:3px;padding-right:3px;transform:translate(50%);cursor:ew-resize}.draggable-panel .chart-item .resizable .k[data-v-4ced9f6c]{bottom:0;left:0;width:100%!important;height:8px;padding-top:3px;padding-bottom:3px;padding-left:0!important;padding-right:0!important;transform:translateY(50%);cursor:ns-resize}.draggable-panel .chart-item .resizable .l[data-v-4ced9f6c]{left:0;top:0;height:100%!important;width:8px;padding-top:0!important;padding-bottom:0!important;padding-left:3px;padding-right:3px;transform:translate(-50%);cursor:ew-resize}\n')();
 var _export_sfc = (sfc, props) => {
   const target = sfc.__vccOpts || sfc;
   for (const [key, val] of props) {
@@ -189,7 +189,7 @@ const _sfc_main = defineComponent({
     },
     scaleByKeyboard(event) {
       const { key } = event;
-      if (["=", "-", "0"].includes(key) && this.lock)
+      if (["=", "-"].includes(key) && this.lock)
         return event.preventDefault();
       if (key === "=") {
         event.preventDefault();
@@ -205,12 +205,21 @@ const _sfc_main = defineComponent({
           scale = this.scaleMin;
         this.scale = scale;
       }
-      if (key === "0") {
-        event.preventDefault();
-        this.scale = this.defaultScale;
-        this.canvasX = this.defaultX;
-        this.canvasY = this.defaultY;
-      }
+    },
+    resetScale() {
+      if (this.lock)
+        return;
+      this.scale = this.defaultScale;
+      this.canvasX = this.defaultX;
+      this.canvasY = this.defaultY;
+    },
+    realScale() {
+      if (this.lock)
+        return;
+      const { offsetWidth, offsetHeight } = this.container;
+      this.scale = 1;
+      this.canvasX = (offsetWidth - this.width) / 2;
+      this.canvasY = (offsetHeight - this.height) / 2;
     },
     setChartPosition(event) {
       this.chartPosition = {
@@ -290,15 +299,15 @@ const _sfc_main = defineComponent({
           resizeWidthWithX();
           resizeHeightWithY();
         }
-        if (this.resizeDirection === "c") {
+        if (this.resizeDirection === "b") {
           resizeWidth();
           resizeHeightWithY();
         }
-        if (this.resizeDirection === "e") {
+        if (this.resizeDirection === "c") {
           resizeWidth();
           resizeHeight();
         }
-        if (this.resizeDirection === "g") {
+        if (this.resizeDirection === "d") {
           resizeWidthWithX();
           resizeHeight();
         }
@@ -322,6 +331,7 @@ const _sfc_main = defineComponent({
       const empty = document.createElement("div");
       event.dataTransfer.setDragImage(empty, 0, 0);
       event.dataTransfer.effectAllowed = "move";
+      event.dataTransfer.dropEffect = "move";
       this.movingChart = chart;
     },
     chartDragend() {
@@ -333,6 +343,7 @@ const _sfc_main = defineComponent({
         return;
       const empty = document.createElement("div");
       event.dataTransfer.setDragImage(empty, 0, 0);
+      event.dataTransfer.dropEffect = "move";
       event.dataTransfer.effectAllowed = "move";
       this.resizingChart = chart;
       this.resizeDirection = direction;
@@ -395,18 +406,21 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     onKeydown: [
       _cache[9] || (_cache[9] = withKeys(($event) => _ctx.canvasStatusMove = true, ["space"])),
       _cache[10] || (_cache[10] = withModifiers((...args) => _ctx.scaleByKeyboard && _ctx.scaleByKeyboard(...args), ["meta"])),
-      _cache[11] || (_cache[11] = withModifiers((...args) => _ctx.scaleByKeyboard && _ctx.scaleByKeyboard(...args), ["ctrl"]))
+      _cache[11] || (_cache[11] = withModifiers((...args) => _ctx.scaleByKeyboard && _ctx.scaleByKeyboard(...args), ["ctrl"])),
+      _cache[13] || (_cache[13] = withKeys(withModifiers((...args) => _ctx.resetScale && _ctx.resetScale(...args), ["prevent"]), ["0"])),
+      _cache[14] || (_cache[14] = withKeys(withModifiers((...args) => _ctx.realScale && _ctx.realScale(...args), ["prevent"]), ["enter"]))
     ],
     onKeyup: _cache[12] || (_cache[12] = withKeys(($event) => _ctx.canvasStatusMove = false, ["space"])),
     onWheel: [
-      _cache[13] || (_cache[13] = withModifiers((...args) => _ctx.scaleByWheel && _ctx.scaleByWheel(...args), ["ctrl", "prevent"])),
-      _cache[14] || (_cache[14] = withModifiers((...args) => _ctx.scaleByWheel && _ctx.scaleByWheel(...args), ["meta", "prevent"]))
+      _cache[15] || (_cache[15] = withModifiers((...args) => _ctx.scaleByWheel && _ctx.scaleByWheel(...args), ["prevent", "ctrl"])),
+      _cache[16] || (_cache[16] = withModifiers((...args) => _ctx.scaleByWheel && _ctx.scaleByWheel(...args), ["prevent", "meta"]))
     ],
-    onDragover: _cache[15] || (_cache[15] = withModifiers((...args) => _ctx.dragoverContainer && _ctx.dragoverContainer(...args), ["prevent"]))
+    onDragover: _cache[17] || (_cache[17] = withModifiers((...args) => _ctx.dragoverContainer && _ctx.dragoverContainer(...args), ["prevent"]))
   }, [
     createElementVNode("div", {
       class: normalizeClass(["canvas", {
-        "out-canvas-dragover": _ctx.outCanvasDragover
+        "out-canvas-dragover": _ctx.outCanvasDragover,
+        "moving": _ctx.canvasStatusMove
       }]),
       ref: "canvas",
       style: normalizeStyle(_ctx.canvasStyleComputed),
@@ -446,7 +460,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
             ], true)
           ]),
           createElementVNode("div", _hoisted_3, [
-            (openBlock(), createElementBlock(Fragment, null, renderList(["a", "c", "e", "g"], (direction) => {
+            (openBlock(), createElementBlock(Fragment, null, renderList(["a", "b", "c", "d"], (direction) => {
               return createElementVNode("div", {
                 key: direction,
                 class: normalizeClass(["resizable-point", direction]),
@@ -455,7 +469,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
                 onDragstart: withModifiers(($event) => _ctx.resizeStart($event, item, direction), ["stop"])
               }, null, 42, _hoisted_4);
             }), 64)),
-            (openBlock(), createElementBlock(Fragment, null, renderList(["b", "d", "f", "h"], (direction) => {
+            (openBlock(), createElementBlock(Fragment, null, renderList(["e", "f", "g", "h"], (direction) => {
               return createElementVNode("div", {
                 key: direction,
                 class: normalizeClass([direction, "resizable-point"])
@@ -476,6 +490,6 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     ], 38)
   ], 34);
 }
-var index = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-105eb206"]]);
+var index = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-4ced9f6c"], ["__file", "/Users/xingrong/Develop/workspace/draggable-panel/src/components/draggablePanel/index.vue"]]);
 export { index as default };
 //# sourceMappingURL=draggable-panel.es.js.map

@@ -34,8 +34,8 @@
     "private": false,
     "scripts": {
         "dev": "vite",
-        "build": "vite build",
-        "preview": "vite preview"
+        "build:lib": "vite build --mode lib",
+        "build:example": "vite build --mode example"
     },
     "dependencies": {
         "draggable-panel": "^1.0.3",
