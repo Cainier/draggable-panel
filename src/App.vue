@@ -121,6 +121,7 @@ export default defineComponent({
 <style lang="sass">
 body
     margin: 0
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", Arial, sans-serif
 </style>
 
 <style lang="sass" scoped>
