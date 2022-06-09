@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import {defineComponent, ref, reactive} from 'vue'
+import { defineComponent, ref, reactive } from 'vue'
 
 import DraggablePanel from './components/draggablePanel/index.vue'
 
@@ -58,15 +58,15 @@ import DraggablePanel from './components/draggablePanel/index.vue'
 // import 'draggable-panel/dist/style.css'
 
 export default defineComponent({
-    name: 'App',
+    name      : 'App',
     components: {
         DraggablePanel,
     },
     setup() {
-        const canvasWidth = ref(1920)
+        const canvasWidth  = ref(1920)
         const canvasHeight = ref(1080)
-        const chartList = ref([])
-        const offset = reactive({x: 0, y: 0})
+        const chartList    = ref([])
+        const offset       = reactive({ x: 0, y: 0 })
 
         return {
             canvasWidth,
@@ -78,23 +78,23 @@ export default defineComponent({
     created() {
         this.chartList = [
             {
-                id: 1231,
-                width: 300,
+                id    : 1231,
+                width : 300,
                 height: 200,
-                x: 20,
-                y: 20,
+                x     : 20,
+                y     : 20,
             }, {
-                id: 3213,
-                width: 300,
+                id    : 3213,
+                width : 300,
                 height: 200,
-                x: 20,
-                y: 240,
+                x     : 20,
+                y     : 240,
             }, {
-                id: 8888,
-                width: 400,
+                id    : 8888,
+                width : 400,
                 height: 250,
-                x: 20,
-                y: 460,
+                x     : 20,
+                y     : 460,
             },
         ]
     },
@@ -107,11 +107,11 @@ export default defineComponent({
         },
         dropInCanvas(x, y) {
             this.chartList.push({
-                id: Number((Math.random() * 10 ** 4).toFixed(0)),
-                width: 300,
+                id    : Number((Math.random() * 10 ** 4).toFixed(0)),
+                width : 300,
                 height: 200,
-                x: x - this.offset.x,
-                y: y - this.offset.y,
+                x     : x - this.offset.x,
+                y     : y - this.offset.y,
             })
         },
     },

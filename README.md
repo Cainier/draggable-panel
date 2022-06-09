@@ -1,12 +1,12 @@
 # Vue Draggable Panel
 
-v1.0.4
+**Vue3** based drag panel component
 
 ---
 
-**Vue3** based drag panel component, demo: https://
-
 ## Demo
+
+https://cainier.github.io/draggable-panel
 
 ## Features
 

@@ -1,6 +1,6 @@
 {
     "name": "draggable-panel",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "Vue draggable panel",
     "author": "Cainier <xingrong.dev@gmail.com>",
     "repository": {
@@ -35,7 +35,8 @@
     "scripts": {
         "dev": "vite",
         "build:lib": "vite build --mode lib",
-        "build:example": "vite build --mode example"
+        "build:example": "vite build --mode example",
+        "build:release": "sh ./release.sh"
     },
     "dependencies": {
         "draggable-panel": "^1.0.3",

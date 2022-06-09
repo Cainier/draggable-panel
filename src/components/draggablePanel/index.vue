@@ -470,10 +470,15 @@ export default defineComponent({
         chartDragstart (event: DragEvent, chart: ChartItem) {
             if (!event.dataTransfer) return
 
-            const empty = document.createElement('div')
+            const empty = document.createElement('canvas')
+
+            empty.setAttribute('data-action', 'empty')
+
             event.dataTransfer.setDragImage(empty, 0, 0)
             event.dataTransfer.effectAllowed = 'move'
             event.dataTransfer.dropEffect    = 'move'
+
+            document.body.appendChild(empty)
 
             this.movingChart = chart
         },
@@ -481,8 +486,13 @@ export default defineComponent({
          * Chart move/resize end
          */
         chartDragend () {
+            this.container.focus()
+
             this.movingChart   = null
             this.resizingChart = null
+
+            document.querySelectorAll('canvas[data-action="empty"]')
+                .forEach(item => item.remove())
         },
         /**
          * Resize start
@@ -493,10 +503,15 @@ export default defineComponent({
         resizeStart (event: DragEvent, chart: ChartItem, direction: string) {
             if (!event.dataTransfer) return
 
-            const empty = document.createElement('div')
+            const empty = document.createElement('canvas')
+
+            empty.setAttribute('data-action', 'empty')
+
             event.dataTransfer.setDragImage(empty, 0, 0)
             event.dataTransfer.dropEffect    = 'move'
             event.dataTransfer.effectAllowed = 'move'
+
+            document.body.appendChild(empty)
 
             this.resizingChart   = chart
             this.resizeDirection = direction
