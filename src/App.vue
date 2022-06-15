@@ -12,7 +12,7 @@
                          :scale-min="0.5"
                          :scale-max="10"
                          :lock="false"
-                         @canvas-scale=""
+                         @canvas-scale="canvasScale"
                          @canvas-drop="dropInCanvas">
             <template #chart="{ chart, index }">
                 <div style="padding: 16px">
@@ -113,6 +113,9 @@ export default defineComponent({
                 y     : y - this.offset.y,
             })
         },
+        canvasScale(scale) {
+            console.info('Canvas scale:', scale)
+        }
     },
 })
 </script>

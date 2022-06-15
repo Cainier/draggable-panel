@@ -79,24 +79,23 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount, defineComponent, PropType } from 'vue'
-
-interface ChartItem {
-    id: number | string
-    width: number
-    height: number
-    x: number
-    y: number
+import {
+    defineComponent,
+    PropType,
+    ref,
+    computed,
+    watch,
+    h,
+    onMounted,
+    onBeforeUnmount,
 }
+    from 'vue'
 
-interface Position {
-    x: number
-    y: number
-}
-
-interface Style {
-    [name: string]: any
-}
+import {
+    ChartItem,
+    Position,
+    Style,
+} from '../../../types/draggable-panel'
 
 export default defineComponent({
     name : 'draggable-panel',
@@ -154,7 +153,11 @@ export default defineComponent({
             default : 10,
         },
     },
-    setup (props) {
+    emits: [
+        'canvas-scale',
+        'canvas-drop',
+    ],
+    setup (props, ctx) {
         const container         = ref<HTMLElement | null>(null)
         const canvas            = ref<HTMLElement | null>(null)
         const canvasStatusMove  = ref<boolean>(false)
@@ -186,8 +189,7 @@ export default defineComponent({
                 ].join(' '),
             },
         }))
-
-        const chartStyleComputed = computed(() => {
+        const chartStyleComputed  = computed(() => {
             return (chartItem: ChartItem, index: number) => {
                 const { width, height, x, y } = chartItem
                 return {
@@ -203,6 +205,360 @@ export default defineComponent({
                 }
             }
         })
+
+        watch(scale, newScale => ctx.emit('canvas-scale', newScale))
+
+        /**
+         * Scale canvas by wheel
+         * @param event
+         */
+        const scaleByWheel = (event: WheelEvent) => {
+            const { ctrlKey, metaKey } = event
+
+            if (!ctrlKey && !metaKey) return
+
+            event.preventDefault()
+
+            if (props.lock) return
+
+            let ratio = 1 / (1 + event.deltaY * 0.001)
+            let zoom  = scale.value * ratio
+
+            if (zoom > props.scaleMax) {
+                ratio = props.scaleMax / scale.value
+                zoom  = props.scaleMax
+            }
+
+            if (zoom < props.scaleMin) {
+                ratio = props.scaleMin / scale.value
+                zoom  = props.scaleMin
+            }
+
+            scale.value = zoom
+
+            const origin = {
+                x: (ratio - 1) * props.width * 0.5,
+                y: (ratio - 1) * props.height * 0.5,
+            }
+
+            canvasX.value -= (ratio - 1) * (event.clientX - canvasX.value) - origin.x
+            canvasY.value -= (ratio - 1) * (event.clientY - canvasY.value) - origin.y
+        }
+
+        /**
+         * Scale canvas add
+         * @param event
+         */
+        const scaleAddByKeyboard = (event: KeyboardEvent) => {
+            event.preventDefault()
+
+            if (props.lock) return
+
+            let zoom = scale.value + 0.1
+
+            if (zoom > props.scaleMax) zoom = props.scaleMax
+
+            scale.value = zoom
+        }
+
+        /**
+         * Scale canvas sub
+         * @param event
+         */
+        const scaleSubByKeyboard = (event: KeyboardEvent) => {
+            event.preventDefault()
+
+            if (props.lock) return
+
+            let zoom = scale.value - 0.1
+
+            if (zoom < props.scaleMin) zoom = props.scaleMin
+
+            scale.value = zoom
+        }
+
+        /**
+         * Reset scale
+         */
+        const resetScale = () => {
+            if (props.lock) return
+
+            scale.value   = defaultScale.value
+            canvasX.value = defaultX.value
+            canvasY.value = defaultY.value
+        }
+
+        /**
+         * Real scale
+         */
+        const realScale = () => {
+            if (props.lock) return
+
+            const { offsetWidth, offsetHeight } = container.value
+
+            scale.value   = 1
+            canvasX.value = (offsetWidth - props.width) / 2
+            canvasY.value = (offsetHeight - props.height) / 2
+        }
+
+        /**
+         * Pointer down
+         * @param event
+         */
+        const pointerDown = (event: PointerEvent) => {
+            if (!canvasStatusMove.value || props.lock) return
+
+            pointerPressed.value = true
+
+            canvas.value.setPointerCapture(event.pointerId)
+
+            point.value           = { x: event.clientX, y: event.clientY }
+            lastPointermove.value = { x: event.clientX, y: event.clientY }
+        }
+
+        /**
+         * Pointer move
+         * @param event
+         */
+        const pointermove = (event: PointerEvent) => {
+            if (!pointerPressed.value) return
+
+            event.preventDefault()
+
+            const current = { x: event.clientX, y: event.clientY }
+
+            diff.value = {
+                x: current.x - lastPointermove.value.x,
+                y: current.y - lastPointermove.value.y,
+            }
+
+            lastPointermove.value = { x: current.x, y: current.y }
+            canvasX.value += diff.value.x
+            canvasY.value += diff.value.y
+        }
+
+        /**
+         * Pointer up
+         */
+        const pointerUp = () => {
+            pointerPressed.value = false
+        }
+
+        /**
+         * Pointer cancel
+         */
+        const pointerCancel = () => {
+            pointerPressed.value = false
+        }
+
+        /**
+         * Set chart position
+         * @param event
+         */
+        const setChartPosition = (event: MouseEvent) => {
+            chartPosition.value = {
+                x: event.clientX,
+                y: event.clientY,
+            }
+        }
+
+        /**
+         * Chart move/resize start
+         * @param event
+         * @param chart
+         */
+        const chartDragstart = (event: DragEvent, chart: ChartItem) => {
+            if (!event.dataTransfer) return
+
+            hideDragImage(event.dataTransfer)
+
+            movingChart.value = chart
+        }
+
+        /**
+         * Resize start
+         * @param event
+         * @param chart
+         * @param direction
+         */
+        const resizeStart = (event: DragEvent, chart: ChartItem, direction: string) => {
+            if (!event.dataTransfer) return
+
+            hideDragImage(event.dataTransfer)
+
+            resizingChart.value   = chart
+            resizeDirection.value = direction
+        }
+
+        /**
+         * Dragover over container (move/resize)
+         * @param event
+         */
+        const dragoverContainer = (event: DragEvent) => {
+            const { clientX, clientY } = event
+            const offsetX              = (clientX - chartPosition.value.x) / scale.value
+            const offsetY              = (clientY - chartPosition.value.y) / scale.value
+
+            chartPosition.value = { x: clientX, y: clientY }
+
+            if (movingChart.value) {
+                const { width, height, x, y } = movingChart.value
+                const maxX                    = props.width - width
+                const maxY                    = props.height - height
+
+                let newX = x + offsetX
+                let newY = y + offsetY
+
+                if (newX < 0) newX = 0
+                if (newY < 0) newY = 0
+                if (newX > maxX) newX = maxX
+                if (newY > maxY) newY = maxY
+
+                movingChart.value.x = newX
+                movingChart.value.y = newY
+            }
+
+            if (resizingChart.value) {
+                const { width, height, x, y } = resizingChart.value
+                const chartMaxWidth           = props.width - x
+                const chartMaxHeight          = props.height - y
+                const direction               = resizeDirection.value
+
+                let newWidth  = width
+                let newHeight = height
+                let newX      = x
+                let newY      = y
+
+                const resizeWidth       = () => {
+                    newWidth += offsetX
+                    if (newWidth < props.chartMinWidth) newWidth = width
+                    if (newWidth > chartMaxWidth) newWidth = chartMaxWidth
+                }
+                const resizeHeight      = () => {
+                    newHeight += offsetY
+                    if (newHeight < props.chartMinHeight) newHeight = height
+                    if (newHeight > chartMaxHeight) newHeight = chartMaxHeight
+                }
+                const resizeWidthWithX  = () => {
+                    newX     = x + offsetX
+                    newWidth = width - offsetX
+
+                    if (newX < 0) {
+                        newX     = 0
+                        newWidth = width + x
+                    }
+
+                    if (newWidth < props.chartMinWidth) {
+                        newWidth = width
+                        newX     = x
+                    }
+                }
+                const resizeHeightWithY = () => {
+                    newY      = y + offsetY
+                    newHeight = height - offsetY
+
+                    if (newY < 0) {
+                        newY      = 0
+                        newHeight = height + y
+                    }
+
+                    if (newHeight < props.chartMinHeight) {
+                        newHeight = height
+                        newY      = y
+                    }
+                }
+
+                if (direction === 'a') {
+                    resizeWidthWithX()
+                    resizeHeightWithY()
+                }
+
+                if (direction === 'b') {
+                    resizeWidth()
+                    resizeHeightWithY()
+                }
+
+                if (direction === 'c') {
+                    resizeWidth()
+                    resizeHeight()
+                }
+
+                if (direction === 'd') {
+                    resizeWidthWithX()
+                    resizeHeight()
+                }
+
+                if (direction === 'i') resizeHeightWithY()
+                if (direction === 'j') resizeWidth()
+                if (direction === 'k') resizeHeight()
+                if (direction === 'l') resizeWidthWithX()
+
+                resizingChart.value.width  = newWidth
+                resizingChart.value.height = newHeight
+                resizingChart.value.x      = newX
+                resizingChart.value.y      = newY
+            }
+        }
+
+        /**
+         * Drop in canvas
+         * @param event
+         */
+        const dropInCanvas = (event: DragEvent) => {
+            if (movingChart.value || resizingChart.value) return
+
+            outCanvasDragover.value = false
+
+            ctx.emit('canvas-drop', event.offsetX, event.offsetY)
+        }
+
+        /**
+         * Chart move/resize end
+         */
+        const chartDragend = () => {
+            container.value.focus()
+
+            movingChart.value   = null
+            resizingChart.value = null
+
+            document
+                .querySelectorAll('.draggable-panel canvas[data-action="empty"]')
+                .forEach(item => item.remove())
+        }
+
+        /**
+         * Drag in from outside the canvas
+         */
+        const dragenterCanvas = () => {
+            if (movingChart.value || resizingChart.value) return
+
+            outCanvasDragover.value = true
+        }
+
+        /**
+         * Drag in from outside the canvas cancel
+         */
+        const dragleaveCanvas = () => {
+            outCanvasDragover.value = false
+        }
+
+        /**
+         * Hide dragImage
+         * @param dataTransfer
+         */
+        function hideDragImage (dataTransfer: DataTransfer) {
+            const empty = document.createElement('canvas')
+
+            empty.width  = 0
+            empty.height = 0
+            empty.setAttribute('data-action', 'empty')
+
+            container.value.appendChild(empty)
+
+            dataTransfer.setDragImage(empty, 0, 0)
+            dataTransfer.dropEffect    = 'move'
+            dataTransfer.effectAllowed = 'move'
+        }
 
         /**
          * Canvas init
@@ -233,353 +589,77 @@ export default defineComponent({
             window.removeEventListener('resize', init)
         })
 
-        return {
-            container,              // Element Container
-            canvas,                 // Element Canvas
-            defaultX,               // Canvas default X
-            defaultY,               // Canvas default Y
-            defaultScale,           // Canvas default scale
-            scale,                  // Canvas scale value
-            point,                  // Canvas move start position
-            lastPointermove,        // Canvas move position
-            diff,                   // Canvas move position diff
-            movingChart,            // Chart in moving state
-            resizingChart,          // Chart in resizing state
-            resizeDirection,        // Chart resize direction
-            chartPosition,          // Chart drag position
-            canvasX,                // Canvas translateX
-            canvasY,                // Canvas translateY
-            canvasStatusMove,       // Keyboard Space press state
-            pointerPressed,         // Pointer press state
-            outCanvasDragover,      // Drag off-canvas el into the canvas
-            canvasStyleComputed,    // Canvas style
-            chartStyleComputed,     // Chart style
-        }
-    },
-    watch  : {
-        scale (newVal) {
-            this.$emit('canvas-scale', newVal)
-        },
-    },
-    methods: {
-        /**
-         * Scale canvas by wheel
-         * @param event
-         */
-        scaleByWheel (event: WheelEvent) {
-            if (this.lock) return
+        return () => [
+            h('div', {
+                class    : [
+                    'draggable-panel',
+                    props.lock ? 'lock' : '',
+                ],
+                tabindex : -1,
+                ref      : container,
+                autofocus: true,
+                onkeydown (event: KeyboardEvent) {
+                    const { key, ctrlKey, metaKey } = event
 
-            let ratio = 1 / (1 + event.deltaY * 0.001)
-            let scale = this.scale * ratio
-
-            if (scale > this.scaleMax) {
-                ratio = this.scaleMax / this.scale
-                scale = this.scaleMax
-            }
-
-            if (scale < this.scaleMin) {
-                ratio = this.scaleMin / this.scale
-                scale = this.scaleMin
-            }
-
-            this.scale = scale
-
-            const origin = {
-                x: (ratio - 1) * this.width * 0.5,
-                y: (ratio - 1) * this.height * 0.5,
-            }
-
-            this.canvasX -= (ratio - 1) * (event.clientX - this.canvasX) - origin.x
-            this.canvasY -= (ratio - 1) * (event.clientY - this.canvasY) - origin.y
-        },
-        /**
-         * Scale canvas by ctrl ++ / ctrl --
-         * Scale canvas by command ++ / command --
-         * @param event
-         */
-        scaleByKeyboard (event: KeyboardEvent) {
-            const { key } = event
-
-            if (['=', '-'].includes(key) && this.lock) return event.preventDefault()
-
-            if (key === '=') {
-                event.preventDefault()
-
-                let scale = this.scale + 0.1
-
-                if (scale > this.scaleMax) scale = this.scaleMax
-
-                this.scale = scale
-            }
-
-            if (key === '-') {
-                event.preventDefault()
-
-                let scale = this.scale - 0.1
-
-                if (scale < this.scaleMin) scale = this.scaleMin
-
-                this.scale = scale
-            }
-        },
-        /**
-         * Reset scale
-         */
-        resetScale () {
-            if (this.lock) return
-
-            this.scale   = this.defaultScale
-            this.canvasX = this.defaultX
-            this.canvasY = this.defaultY
-        },
-        /**
-         * Real scale
-         */
-        realScale () {
-            if (this.lock) return
-
-            const { offsetWidth, offsetHeight } = this.container
-
-            this.scale   = 1
-            this.canvasX = (offsetWidth - this.width) / 2
-            this.canvasY = (offsetHeight - this.height) / 2
-        },
-        /**
-         * Set chart position
-         * @param event
-         */
-        setChartPosition (event: MouseEvent) {
-            this.chartPosition = {
-                x: event.clientX,
-                y: event.clientY,
-            }
-        },
-        /**
-         * Dragover over container (move/resize)
-         * @param event
-         */
-        dragoverContainer (event: DragEvent) {
-            const { clientX, clientY } = event
-            const offsetX              = (clientX - this.chartPosition.x) / this.scale
-            const offsetY              = (clientY - this.chartPosition.y) / this.scale
-
-            this.chartPosition = { x: clientX, y: clientY }
-
-            if (this.movingChart) {
-                const { width, height, x, y } = this.movingChart
-                const maxX                    = this.width - width
-                const maxY                    = this.height - height
-
-                let newX = x + offsetX
-                let newY = y + offsetY
-
-                if (newX < 0) newX = 0
-                if (newY < 0) newY = 0
-                if (newX > maxX) newX = maxX
-                if (newY > maxY) newY = maxY
-
-                this.movingChart.x = newX
-                this.movingChart.y = newY
-            }
-
-            if (this.resizingChart) {
-                const { width, height, x, y } = this.resizingChart
-                const chartMaxWidth           = this.width - x
-                const chartMaxHeight          = this.height - y
-
-                let newWidth  = width
-                let newHeight = height
-                let newX      = x
-                let newY      = y
-
-                const resizeWidth       = () => {
-                    newWidth += offsetX
-                    if (newWidth < this.chartMinWidth) newWidth = width
-                    if (newWidth > chartMaxWidth) newWidth = chartMaxWidth
-                }
-                const resizeHeight      = () => {
-                    newHeight += offsetY
-                    if (newHeight < this.chartMinHeight) newHeight = height
-                    if (newHeight > chartMaxHeight) newHeight = chartMaxHeight
-                }
-                const resizeWidthWithX  = () => {
-                    newX     = x + offsetX
-                    newWidth = width - offsetX
-
-                    if (newX < 0) {
-                        newX     = 0
-                        newWidth = width + x
+                    // TODO: exact
+                    if (key === 'space') return canvasStatusMove.value = true
+                    if (key === '=' && (ctrlKey || metaKey)) return scaleAddByKeyboard(event)
+                    if (key === '-' && (ctrlKey || metaKey)) return scaleSubByKeyboard(event)
+                    if (key === '0') {
+                        event.preventDefault()
+                        return resetScale()
                     }
-
-                    if (newWidth < this.chartMinWidth) {
-                        newWidth = width
-                        newX     = x
+                    if (key === 'enter') {
+                        event.preventDefault()
+                        return realScale()
                     }
-                }
-                const resizeHeightWithY = () => {
-                    newY      = y + offsetY
-                    newHeight = height - offsetY
+                },
+                onkeyup ({ key }: KeyboardEvent) {
+                    if (key === 'space') canvasStatusMove.value = false
+                },
+                onwheel: scaleByWheel,
+            }, []),
+        ]
 
-                    if (newY < 0) {
-                        newY      = 0
-                        newHeight = height + y
-                    }
-
-                    if (newHeight < this.chartMinHeight) {
-                        newHeight = height
-                        newY      = y
-                    }
-                }
-
-                if (this.resizeDirection === 'a') {
-                    resizeWidthWithX()
-                    resizeHeightWithY()
-                }
-
-                if (this.resizeDirection === 'b') {
-                    resizeWidth()
-                    resizeHeightWithY()
-                }
-
-                if (this.resizeDirection === 'c') {
-                    resizeWidth()
-                    resizeHeight()
-                }
-
-                if (this.resizeDirection === 'd') {
-                    resizeWidthWithX()
-                    resizeHeight()
-                }
-
-                if (this.resizeDirection === 'i') resizeHeightWithY()
-                if (this.resizeDirection === 'j') resizeWidth()
-                if (this.resizeDirection === 'k') resizeHeight()
-                if (this.resizeDirection === 'l') resizeWidthWithX()
-
-                this.resizingChart.width  = newWidth
-                this.resizingChart.x      = newX
-                this.resizingChart.height = newHeight
-                this.resizingChart.y      = newY
-            }
-        },
-        /**
-         * Chart move/resize start
-         * @param event
-         * @param chart
-         */
-        chartDragstart (event: DragEvent, chart: ChartItem) {
-            if (!event.dataTransfer) return
-
-            const empty = document.createElement('canvas')
-
-            empty.setAttribute('data-action', 'empty')
-
-            event.dataTransfer.setDragImage(empty, 0, 0)
-            event.dataTransfer.effectAllowed = 'move'
-            event.dataTransfer.dropEffect    = 'move'
-
-            document.body.appendChild(empty)
-
-            this.movingChart = chart
-        },
-        /**
-         * Chart move/resize end
-         */
-        chartDragend () {
-            this.container.focus()
-
-            this.movingChart   = null
-            this.resizingChart = null
-
-            document.querySelectorAll('canvas[data-action="empty"]')
-                .forEach(item => item.remove())
-        },
-        /**
-         * Resize start
-         * @param event
-         * @param chart
-         * @param direction
-         */
-        resizeStart (event: DragEvent, chart: ChartItem, direction: string) {
-            if (!event.dataTransfer) return
-
-            const empty = document.createElement('canvas')
-
-            empty.setAttribute('data-action', 'empty')
-
-            event.dataTransfer.setDragImage(empty, 0, 0)
-            event.dataTransfer.dropEffect    = 'move'
-            event.dataTransfer.effectAllowed = 'move'
-
-            document.body.appendChild(empty)
-
-            this.resizingChart   = chart
-            this.resizeDirection = direction
-        },
-        /**
-         * Pointer down
-         * @param event
-         */
-        pointerDown (event: PointerEvent) {
-            if (!this.canvasStatusMove || this.lock) return
-
-            this.pointerPressed = true
-
-            const canvasEl = this.canvas!
-
-            canvasEl.setPointerCapture(event.pointerId)
-
-            this.point           = { x: event.clientX, y: event.clientY }
-            this.lastPointermove = { x: event.clientX, y: event.clientY }
-        },
-        /**
-         * Pointer move
-         * @param event
-         */
-        pointermove (event: PointerEvent) {
-            if (!this.pointerPressed) return
-
-            event.preventDefault()
-
-            const current = { x: event.clientX, y: event.clientY }
-
-            this.diff.x          = current.x - this.lastPointermove.x
-            this.diff.y          = current.y - this.lastPointermove.y
-            this.lastPointermove = { x: current.x, y: current.y }
-            this.canvasX += this.diff.x
-            this.canvasY += this.diff.y
-        },
-        /**
-         * Pointer up
-         */
-        pointerUp () {
-            this.pointerPressed = false
-        },
-        /**
-         * Pointer cancel
-         */
-        pointerCancel () {
-            this.pointerPressed = false
-        },
-        dragenterCanvas () {
-            if (this.movingChart || this.resizingChart) return
-
-            this.outCanvasDragover = true
-        },
-        dragleaveCanvas () {
-            this.outCanvasDragover = false
-        },
-        /**
-         * Drop in canvas
-         * @param event
-         */
-        dropInCanvas (event: DragEvent) {
-            if (this.movingChart || this.resizingChart) return
-
-            this.outCanvasDragover = false
-
-            this.$emit('canvas-drop', event.offsetX, event.offsetY)
-        },
+        // return {
+        //     container,              // Element Container
+        //     canvas,                 // Element Canvas
+        //     defaultX,               // Canvas default X
+        //     defaultY,               // Canvas default Y
+        //     defaultScale,           // Canvas default scale
+        //     scale,                  // Canvas scale value
+        //     point,                  // Canvas move start position
+        //     lastPointermove,        // Canvas move position
+        //     diff,                   // Canvas move position diff
+        //     movingChart,            // Chart in moving state
+        //     resizingChart,          // Chart in resizing state
+        //     resizeDirection,        // Chart resize direction
+        //     chartPosition,          // Chart drag position
+        //     canvasX,                // Canvas translateX
+        //     canvasY,                // Canvas translateY
+        //     canvasStatusMove,       // Keyboard Space press state
+        //     pointerPressed,         // Pointer press state
+        //     outCanvasDragover,      // Drag off-canvas el into the canvas
+        //     canvasStyleComputed,    // Canvas style
+        //     chartStyleComputed,     // Chart style
+        //     // Methods
+        //     scaleByWheel,
+        //     scaleByKeyboard,
+        //     resetScale,
+        //     realScale,
+        //     pointerDown,
+        //     pointermove,
+        //     pointerUp,
+        //     pointerCancel,
+        //     setChartPosition,
+        //     chartDragstart,
+        //     resizeStart,
+        //     dragoverContainer,
+        //     dropInCanvas,
+        //     chartDragend,
+        //     dragenterCanvas,
+        //     dragleaveCanvas,
+        // }
     },
 })
 </script>

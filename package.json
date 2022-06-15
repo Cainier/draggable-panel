@@ -19,6 +19,7 @@
         "component",
         "draggable-panel"
     ],
+    "typings": "./types/draggable-panel/index.d.ts",
     "main": "./dist/draggable-panel.umd.js",
     "module": "./dist/draggable-panel.es.js",
     "files": [
