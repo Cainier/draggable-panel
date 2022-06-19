@@ -1,85 +1,5 @@
-<template>
-    <div class="draggable-panel"
-         :class="{
-             'lock': lock,
-         }"
-         :tabindex="-1"
-         ref="container"
-         autofocus
-         @keydown.space="canvasStatusMove = true"
-         @keydown.meta="scaleByKeyboard"
-         @keydown.ctrl="scaleByKeyboard"
-         @keyup.space="canvasStatusMove = false"
-         @keydown.prevent.0="resetScale"
-         @keydown.prevent.enter="realScale"
-         @wheel.prevent.ctrl="scaleByWheel"
-         @wheel.prevent.meta="scaleByWheel"
-         @dragover.prevent="dragoverContainer">
-        <div class="canvas"
-             ref="canvas"
-             :class="{
-                 'out-canvas-dragover': outCanvasDragover,
-                 'moving': canvasStatusMove,
-             }"
-             :style="canvasStyleComputed"
-             @pointerdown="pointerDown"
-             @pointermove="pointermove"
-             @pointerup="pointerUp"
-             @pointercancel="pointerCancel"
-             @dragenter="dragenterCanvas"
-             @dragleave="dragleaveCanvas"
-             @drop="dropInCanvas">
-            <div class="chart-item"
-                 :class="{
-                     'moving'  : movingChart?.id   === item.id,
-                     'resizing': resizingChart?.id === item.id,
-                 }"
-                 v-for="(item, index) in data"
-                 :key="item.id"
-                 :style="chartStyleComputed(item, index)"
-                 :data-id="item.id"
-                 tabindex="-1"
-                 :draggable="!lock"
-                 @mousedown="setChartPosition"
-                 @dragstart="chartDragstart($event, item)"
-                 @dragend="chartDragend">
-                <div class="content">
-                    <slot :name="'chart-' + item.id" :chart="item" :index="index">
-                        <slot name="chart" :chart="item" :index="index"/>
-                    </slot>
-                </div>
-                <div class="resizable">
-                    <div v-for="direction in ['a', 'b', 'c', 'd']"
-                         :key="direction"
-                         class="resizable-point"
-                         :class="direction"
-                         tabindex="-1"
-                         draggable="true"
-                         @dragstart.stop="resizeStart($event, item, direction)">
-                    </div>
-
-                    <div v-for="direction in ['e', 'f', 'g', 'h']"
-                         :key="direction"
-                         :class="direction"
-                         class="resizable-point">
-                    </div>
-
-                    <div v-for="direction in ['i', 'j', 'k', 'l']"
-                         :key="direction"
-                         :class="direction"
-                         class="resizable-line"
-                         tabindex="-1"
-                         draggable="true"
-                         @dragstart.stop="resizeStart($event, item, direction)">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
-<script lang="ts">
 import {
+    markRaw,
     defineComponent,
     PropType,
     ref,
@@ -96,8 +16,9 @@ import {
     Position,
     Style,
 } from '../../../types/draggable-panel'
+import './index.sass'
 
-export default defineComponent({
+export default markRaw(defineComponent({
     name : 'draggable-panel',
     props: {
         width         : {
@@ -382,6 +303,8 @@ export default defineComponent({
          * @param direction
          */
         const resizeStart = (event: DragEvent, chart: ChartItem, direction: string) => {
+            event.stopPropagation()
+
             if (!event.dataTransfer) return
 
             hideDragImage(event.dataTransfer)
@@ -395,6 +318,8 @@ export default defineComponent({
          * @param event
          */
         const dragoverContainer = (event: DragEvent) => {
+            event.preventDefault()
+
             const { clientX, clientY } = event
             const offsetX              = (clientX - chartPosition.value.x) / scale.value
             const offsetY              = (clientY - chartPosition.value.y) / scale.value
@@ -509,7 +434,10 @@ export default defineComponent({
 
             outCanvasDragover.value = false
 
-            ctx.emit('canvas-drop', event.offsetX, event.offsetY)
+            ctx.emit('canvas-drop', event, {
+                x: event.offsetX,
+                y: event.offsetY,
+            })
         }
 
         /**
@@ -580,6 +508,89 @@ export default defineComponent({
             canvasY.value      = defaultY.value
         }
 
+        /**
+         * Create Resizable h Dom
+         * @param chartItem
+         */
+        function createResizableList (chartItem) {
+            const pointDirectionList          = ['a', 'b', 'c', 'd']
+            const resizablePointDirectionList = ['e', 'f', 'g', 'h']
+            const lineDirectionList           = ['i', 'j', 'k', 'l']
+            const resizableList               = []
+
+            pointDirectionList.forEach(direction => {
+                resizableList.push(h('div', {
+                    class      : [
+                        'resizable-point',
+                        direction,
+                    ],
+                    key        : direction,
+                    tabindex   : -1,
+                    draggable  : true,
+                    onDragstart: event => resizeStart(event, chartItem, direction),
+                }))
+            })
+
+            resizablePointDirectionList.forEach(direction => {
+                resizableList.push(h('div', {
+                    class: [
+                        'resizable-point',
+                        direction,
+                    ],
+                    key  : direction,
+                }))
+            })
+
+            lineDirectionList.forEach(direction => {
+                resizableList.push(h('div', {
+                    class      : [
+                        'resizable-line',
+                        direction,
+                    ],
+                    key        : direction,
+                    tabindex   : -1,
+                    draggable  : true,
+                    onDragstart: event => resizeStart(event, chartItem, direction),
+                }))
+            })
+
+            return resizableList
+        }
+
+        /**
+         * Create Chart h Dom
+         */
+        function createChartList () {
+            const chartList = []
+
+            props.data.forEach((item, index) => {
+                chartList.push(h('div', {
+                    class      : [
+                        'chart-item',
+                        movingChart.value?.id === item.id ? 'moving' : '',
+                        resizingChart.value?.id === item.id ? 'resizing' : '',
+                    ],
+                    key        : item.id,
+                    style      : chartStyleComputed.value(item, index),
+                    ['data-id']: item.id,
+                    tabindex   : -1,
+                    draggable  : !props.lock,
+                    onMousedown: setChartPosition,
+                    onDragstart: event => chartDragstart(event, item),
+                    onDragend  : chartDragend,
+                }, [
+                    h('div', {
+                        class: ['content'],
+                    }, ctx.slots.default),
+                    h('div', {
+                        class: ['resizable'],
+                    }, createResizableList(item)),
+                ]))
+            })
+
+            return chartList
+        }
+
         onMounted(() => {
             init()
             window.addEventListener('resize', init)
@@ -599,71 +610,45 @@ export default defineComponent({
                 ref      : container,
                 autofocus: true,
                 onkeydown (event: KeyboardEvent) {
-                    const { key, ctrlKey, metaKey } = event
+                    const { ctrlKey, metaKey } = event
+                    const code                 = event.code.toLowerCase()
 
                     // TODO: exact
-                    if (key === 'space') return canvasStatusMove.value = true
-                    if (key === '=' && (ctrlKey || metaKey)) return scaleAddByKeyboard(event)
-                    if (key === '-' && (ctrlKey || metaKey)) return scaleSubByKeyboard(event)
-                    if (key === '0') {
+                    if (code === 'space') return canvasStatusMove.value = true
+                    if (code === '=' && (ctrlKey || metaKey)) return scaleAddByKeyboard(event)
+                    if (code === '-' && (ctrlKey || metaKey)) return scaleSubByKeyboard(event)
+                    if (code === '0') {
                         event.preventDefault()
                         return resetScale()
                     }
-                    if (key === 'enter') {
+                    if (code === 'enter') {
                         event.preventDefault()
                         return realScale()
                     }
                 },
-                onkeyup ({ key }: KeyboardEvent) {
-                    if (key === 'space') canvasStatusMove.value = false
+                onkeyup (event: KeyboardEvent) {
+                    const code = event.code.toLowerCase()
+
+                    if (code === 'space') canvasStatusMove.value = false
                 },
-                onwheel: scaleByWheel,
-            }, []),
+                onwheel   : scaleByWheel,
+                onDragover: dragoverContainer,
+            }, h('div', {
+                ref            : canvas,
+                class          : [
+                    'canvas',
+                    outCanvasDragover.value ? 'out-canvas-dragover' : '',
+                    canvasStatusMove.value ? 'moving' : '',
+                ],
+                style          : canvasStyleComputed.value,
+                onPointerdown  : pointerDown,
+                onPointermove  : pointermove,
+                onPointerup    : pointerUp,
+                onPointercancel: pointerCancel,
+                onDragenter    : dragenterCanvas,
+                onDragleave    : dragleaveCanvas,
+                onDrop         : dropInCanvas,
+            }, createChartList())),
         ]
-
-        // return {
-        //     container,              // Element Container
-        //     canvas,                 // Element Canvas
-        //     defaultX,               // Canvas default X
-        //     defaultY,               // Canvas default Y
-        //     defaultScale,           // Canvas default scale
-        //     scale,                  // Canvas scale value
-        //     point,                  // Canvas move start position
-        //     lastPointermove,        // Canvas move position
-        //     diff,                   // Canvas move position diff
-        //     movingChart,            // Chart in moving state
-        //     resizingChart,          // Chart in resizing state
-        //     resizeDirection,        // Chart resize direction
-        //     chartPosition,          // Chart drag position
-        //     canvasX,                // Canvas translateX
-        //     canvasY,                // Canvas translateY
-        //     canvasStatusMove,       // Keyboard Space press state
-        //     pointerPressed,         // Pointer press state
-        //     outCanvasDragover,      // Drag off-canvas el into the canvas
-        //     canvasStyleComputed,    // Canvas style
-        //     chartStyleComputed,     // Chart style
-        //     // Methods
-        //     scaleByWheel,
-        //     scaleByKeyboard,
-        //     resetScale,
-        //     realScale,
-        //     pointerDown,
-        //     pointermove,
-        //     pointerUp,
-        //     pointerCancel,
-        //     setChartPosition,
-        //     chartDragstart,
-        //     resizeStart,
-        //     dragoverContainer,
-        //     dropInCanvas,
-        //     chartDragend,
-        //     dragenterCanvas,
-        //     dragleaveCanvas,
-        // }
     },
-})
-</script>
-
-<style lang="sass" scoped>
-@import "index"
-</style>
+}))

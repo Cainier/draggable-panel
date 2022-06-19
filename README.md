@@ -115,10 +115,13 @@ yarn add draggable-panel
 * @canvas-drop -> function(x, y)
     - Description: Drag and drop element from outside the draggable-panel to the canvas
     - Parameters:
-        - x: number
-            - Description: Canvas position X
-        - y: number
-            - Description: Canvas position Y
+        - event: DragEvent
+            - Description: DragEvent
+        - position: Object
+            - x: number
+                - Description: Canvas position X
+            - y: number
+                - Description: Canvas position Y
 
 ### Slots
 

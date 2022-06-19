@@ -20,20 +20,20 @@
                 </div>
             </template>
 
-            <template #chart-8888="{ chart, index }">
-                <div style="padding: 16px; color: #FF0000">
-                    <strong>ID: {{ chart.id }} (slot with id)</strong>
-                    <div style="margin: 8px 0">Hotkey:</div>
-                    <ul>
-                        <li>move: space + drag</li>
-                        <li>scale: ctrl + mousewheel</li>
-                        <li>scale +: ctrl + =</li>
-                        <li>scale -: ctrl + -</li>
-                        <li>reset -: ctrl + 0</li>
-                        <li>real size: ctrl + enter</li>
-                    </ul>
-                </div>
-            </template>
+            <!--<template #chart-8888="{ chart, index }">-->
+            <!--    <div style="padding: 16px; color: #FF0000">-->
+            <!--        <strong>ID: {{ chart.id }} (slot with id)</strong>-->
+            <!--        <div style="margin: 8px 0">Hotkey:</div>-->
+            <!--        <ul>-->
+            <!--            <li>move: space + drag</li>-->
+            <!--            <li>scale: ctrl + mousewheel</li>-->
+            <!--            <li>scale +: ctrl + =</li>-->
+            <!--            <li>scale -: ctrl + -</li>-->
+            <!--            <li>reset -: ctrl + 0</li>-->
+            <!--            <li>real size: ctrl + enter</li>-->
+            <!--        </ul>-->
+            <!--    </div>-->
+            <!--</template>-->
         </draggable-panel>
 
         <div class="side">
@@ -47,25 +47,25 @@
 </template>
 
 <script>
-import { defineComponent, ref, reactive } from 'vue'
+import {defineComponent, ref, reactive} from 'vue'
 
 // Dev draggable-panel
-import DraggablePanel from './components/draggablePanel/index.vue'
+import DraggablePanel from './components/draggablePanel'
 
 // Use in your project
 // import DraggablePanel from 'draggable-panel'
 // import 'draggable-panel/dist/style.css'
 
 export default defineComponent({
-    name      : 'App',
+    name: 'App',
     components: {
         DraggablePanel,
     },
     setup() {
-        const canvasWidth  = ref(1920)
+        const canvasWidth = ref(1920)
         const canvasHeight = ref(1080)
-        const chartList    = ref([])
-        const offset       = reactive({ x: 0, y: 0 })
+        const chartList = ref([])
+        const offset = reactive({x: 0, y: 0})
 
         return {
             canvasWidth,
@@ -77,23 +77,23 @@ export default defineComponent({
     created() {
         this.chartList = [
             {
-                id    : 1231,
-                width : 300,
+                id: 1231,
+                width: 300,
                 height: 200,
-                x     : 20,
-                y     : 20,
+                x: 20,
+                y: 20,
             }, {
-                id    : 3213,
-                width : 300,
+                id: 3213,
+                width: 300,
                 height: 200,
-                x     : 20,
-                y     : 240,
+                x: 20,
+                y: 240,
             }, {
-                id    : 8888,
-                width : 400,
+                id: 8888,
+                width: 400,
                 height: 250,
-                x     : 20,
-                y     : 460,
+                x: 20,
+                y: 460,
             },
         ]
     },
@@ -104,18 +104,18 @@ export default defineComponent({
                 y: event.offsetY,
             }
         },
-        dropInCanvas(x, y) {
+        dropInCanvas(event, position) {
             this.chartList.push({
-                id    : Number((Math.random() * 10 ** 4).toFixed(0)),
-                width : 300,
+                id: Number((Math.random() * 10 ** 4).toFixed(0)),
+                width: 300,
                 height: 200,
-                x     : x - this.offset.x,
-                y     : y - this.offset.y,
+                x: position.x - this.offset.x,
+                y: position.y - this.offset.y,
             })
         },
         canvasScale(scale) {
             console.info('Canvas scale:', scale)
-        }
+        },
     },
 })
 </script>
