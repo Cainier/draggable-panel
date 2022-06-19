@@ -20,20 +20,20 @@
                 </div>
             </template>
 
-            <!--<template #chart-8888="{ chart, index }">-->
-            <!--    <div style="padding: 16px; color: #FF0000">-->
-            <!--        <strong>ID: {{ chart.id }} (slot with id)</strong>-->
-            <!--        <div style="margin: 8px 0">Hotkey:</div>-->
-            <!--        <ul>-->
-            <!--            <li>move: space + drag</li>-->
-            <!--            <li>scale: ctrl + mousewheel</li>-->
-            <!--            <li>scale +: ctrl + =</li>-->
-            <!--            <li>scale -: ctrl + -</li>-->
-            <!--            <li>reset -: ctrl + 0</li>-->
-            <!--            <li>real size: ctrl + enter</li>-->
-            <!--        </ul>-->
-            <!--    </div>-->
-            <!--</template>-->
+            <template #chart-8888="{ chart, index }">
+                <div style="padding: 16px; color: #FF0000">
+                    <strong>ID: {{ chart.id }} (slot with id)</strong>
+                    <div style="margin: 8px 0">Hotkey:</div>
+                    <ul>
+                        <li>move: space + drag</li>
+                        <li>scale: ctrl + mousewheel</li>
+                        <li>scale +: ctrl + =</li>
+                        <li>scale -: ctrl + -</li>
+                        <li>reset -: ctrl + 0</li>
+                        <li>real size: ctrl + enter</li>
+                    </ul>
+                </div>
+            </template>
         </draggable-panel>
 
         <div class="side">

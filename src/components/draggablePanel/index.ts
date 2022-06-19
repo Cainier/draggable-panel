@@ -564,6 +564,18 @@ export default markRaw(defineComponent({
             const chartList = []
 
             props.data.forEach((item, index) => {
+                console.log(ctx.slots)
+                console.log(`chart-${item.id}`)
+
+                const x = ctx.slots.chart({
+                    chart: item,
+                    index,
+                })
+                const y = ctx.slots[`chart-${item.id}`]({
+                    chart: item,
+                    index,
+                })
+
                 chartList.push(h('div', {
                     class      : [
                         'chart-item',
@@ -581,7 +593,9 @@ export default markRaw(defineComponent({
                 }, [
                     h('div', {
                         class: ['content'],
-                    }, ctx.slots.default),
+                    }, [
+                        x, y,
+                    ]),
                     h('div', {
                         class: ['resizable'],
                     }, createResizableList(item)),
