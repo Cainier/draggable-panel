@@ -477,8 +477,6 @@ export default markRaw(defineComponent({
         function hideDragImage (dataTransfer: DataTransfer) {
             const empty = document.createElement('canvas')
 
-            empty.width  = 0
-            empty.height = 0
             empty.setAttribute('data-action', 'empty')
 
             container.value.appendChild(empty)
@@ -564,17 +562,17 @@ export default markRaw(defineComponent({
             const chartList = []
 
             props.data.forEach((item, index) => {
-                console.log(ctx.slots)
-                console.log(`chart-${item.id}`)
 
-                const x = ctx.slots.chart({
+                const defaultSlot = ctx.slots.chart({
                     chart: item,
                     index,
                 })
-                const y = ctx.slots[`chart-${item.id}`]({
-                    chart: item,
-                    index,
-                })
+                const customSlot  = ctx.slots[`chart-${item.id}`]
+                    ? ctx.slots[`chart-${item.id}`]({
+                        chart: item,
+                        index,
+                    })
+                    : null
 
                 chartList.push(h('div', {
                     class      : [
@@ -594,7 +592,8 @@ export default markRaw(defineComponent({
                     h('div', {
                         class: ['content'],
                     }, [
-                        x, y,
+                        defaultSlot,
+                        customSlot,
                     ]),
                     h('div', {
                         class: ['resizable'],
@@ -624,14 +623,15 @@ export default markRaw(defineComponent({
                 ref      : container,
                 autofocus: true,
                 onkeydown (event: KeyboardEvent) {
+                    console.log(event)
                     const { ctrlKey, metaKey } = event
                     const code                 = event.code.toLowerCase()
 
                     // TODO: exact
                     if (code === 'space') return canvasStatusMove.value = true
-                    if (code === '=' && (ctrlKey || metaKey)) return scaleAddByKeyboard(event)
-                    if (code === '-' && (ctrlKey || metaKey)) return scaleSubByKeyboard(event)
-                    if (code === '0') {
+                    if (code === 'equal' && (ctrlKey || metaKey)) return scaleAddByKeyboard(event)
+                    if (code === 'minus' && (ctrlKey || metaKey)) return scaleSubByKeyboard(event)
+                    if (code === 'digit0') {
                         event.preventDefault()
                         return resetScale()
                     }

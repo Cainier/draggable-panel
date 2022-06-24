@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite'
-import vue              from '@vitejs/plugin-vue'
+import {defineConfig} from 'vite'
+import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 
@@ -36,7 +36,7 @@ const envDevelopment = defineConfig({
 })
 
 
-export default ({ mode }) => {
+export default ({mode}) => {
     console.info('Build Mode:', mode)
 
     if (mode === 'development') return envDevelopment
