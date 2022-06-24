@@ -152,3 +152,4 @@ yarn add draggable-panel
 
 * [js 实现以鼠标位置为中心滚轮缩放图片](https://juejin.cn/post/7009892447211749406)
 * [vite打包lib库](https://juejin.cn/post/7073646687968821256)
+* [ld7979](https://github.com/ld7979)
