@@ -1,6 +1,6 @@
 {
     "name": "draggable-panel",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "description": "Vue draggable panel",
     "author": "Cainier <xingrong.dev@gmail.com>",
     "repository": {
@@ -19,6 +19,7 @@
         "component",
         "draggable-panel"
     ],
+    "typings": "./types/draggable-panel/index.d.ts",
     "main": "./dist/draggable-panel.umd.js",
     "module": "./dist/draggable-panel.es.js",
     "files": [
@@ -33,7 +34,7 @@
     },
     "private": false,
     "scripts": {
-        "dev": "vite",
+        "dev": "vite --host",
         "build:lib": "vite build --mode lib",
         "build:example": "vite build --mode example",
         "build:release": "sh ./release.sh"
