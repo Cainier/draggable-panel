@@ -105,7 +105,8 @@ export default defineComponent({
             }
         },
         dropInCanvas(event, position) {
-            console.log(event, position)
+            console.info('Event: canvas-drop', event, position)
+
             this.chartList.push({
                 id: Number((Math.random() * 10 ** 4).toFixed(0)),
                 width: 300,
@@ -115,7 +116,7 @@ export default defineComponent({
             })
         },
         canvasScale(scale) {
-            console.info('Canvas scale:', scale)
+            console.info('Event: canvas-scale:', scale)
         },
     },
 })

@@ -623,7 +623,6 @@ export default markRaw(defineComponent({
                 ref      : container,
                 autofocus: true,
                 onkeydown (event: KeyboardEvent) {
-                    console.log(event)
                     const { ctrlKey, metaKey } = event
                     const code                 = event.code.toLowerCase()
 
