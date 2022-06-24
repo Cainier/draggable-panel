@@ -6,7 +6,7 @@ import vue from '@vitejs/plugin-vue'
 const envLib = defineConfig({
     build  : {
         lib          : {
-            entry   : 'src/components/draggablePanel/index.vue',
+            entry   : 'src/components/draggablePanel',
             name    : 'draggable-panel',
             fileName: (format) => `draggable-panel.${format}.js`,
         },
