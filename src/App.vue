@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import {defineComponent, ref, reactive} from 'vue'
+import { defineComponent, ref, reactive } from 'vue'
 
 // Dev draggable-panel
 import DraggablePanel from './components/draggablePanel'
@@ -57,15 +57,15 @@ import DraggablePanel from './components/draggablePanel'
 // import 'draggable-panel/dist/style.css'
 
 export default defineComponent({
-    name: 'App',
+    name      : 'App',
     components: {
         DraggablePanel,
     },
     setup() {
-        const canvasWidth = ref(1920)
+        const canvasWidth  = ref(1920)
         const canvasHeight = ref(1080)
-        const chartList = ref([])
-        const offset = reactive({x: 0, y: 0})
+        const chartList    = ref([])
+        const offset       = reactive({ x: 0, y: 0 })
 
         return {
             canvasWidth,
@@ -77,23 +77,23 @@ export default defineComponent({
     created() {
         this.chartList = [
             {
-                id: 1231,
-                width: 300,
+                id    : 1231,
+                width : 300,
                 height: 200,
-                x: 20,
-                y: 20,
+                x     : 20,
+                y     : 20,
             }, {
-                id: 3213,
-                width: 300,
+                id    : 3213,
+                width : 300,
                 height: 200,
-                x: 20,
-                y: 240,
+                x     : 20,
+                y     : 240,
             }, {
-                id: 8888,
-                width: 400,
+                id    : 8888,
+                width : 400,
                 height: 250,
-                x: 20,
-                y: 460,
+                x     : 20,
+                y     : 460,
             },
         ]
     },
@@ -105,18 +105,18 @@ export default defineComponent({
             }
         },
         dropInCanvas(event, position) {
-            console.info('Event: canvas-drop', event, position)
+            console.info('[Event]', 'canvas-drop', event, position)
 
             this.chartList.push({
-                id: Number((Math.random() * 10 ** 4).toFixed(0)),
-                width: 300,
+                id    : Number((Math.random() * 10 ** 4).toFixed(0)),
+                width : 300,
                 height: 200,
-                x: position.x - this.offset.x,
-                y: position.y - this.offset.y,
+                x     : position.x - this.offset.x,
+                y     : position.y - this.offset.y,
             })
         },
         canvasScale(scale) {
-            console.info('Event: canvas-scale:', scale)
+            console.info('[Event]', 'canvas-scale', scale)
         },
     },
 })

@@ -3,6 +3,10 @@
 # Stop when error
 set -e
 
+# Remove Old dist & example
+rm -rf dist
+rm -rf example
+
 # Build lib
 npm run build:lib
 

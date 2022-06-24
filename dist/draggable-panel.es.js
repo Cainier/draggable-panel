@@ -461,7 +461,6 @@ var index = markRaw(defineComponent({
         ref: container,
         autofocus: true,
         onkeydown(event) {
-          console.log(event);
           const { ctrlKey, metaKey } = event;
           const code = event.code.toLowerCase();
           if (code === "space")
