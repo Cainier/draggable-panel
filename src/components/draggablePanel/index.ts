@@ -477,6 +477,8 @@ export default markRaw(defineComponent({
         function hideDragImage (dataTransfer: DataTransfer) {
             const empty = document.createElement('canvas')
 
+            empty.width  = 0
+            empty.height = 0
             empty.setAttribute('data-action', 'empty')
 
             container.value.appendChild(empty)
