@@ -18,9 +18,6 @@
             &:hover
                 filter: none
 
-            .resizable
-                display: none !important
-
     .canvas
         position: relative
         background: #FFFFFF
@@ -62,19 +59,16 @@
         &:hover
             filter: brightness(1.05)
 
-            .resizable
-                display: block
 
         &.moving .resizable-point
             display: none !important
 
-        &.resizing .resizable
-            display: block
-
         .resizable
+            left   : 0
+            top    : 0
+            position: absolute
             $size: 16px
             $offset: -8px
-            display: none
 
             .resizable-point
                 position: absolute
@@ -165,46 +159,26 @@
                 top: 0
                 left: 0
                 width: 100% !important
-                height: 8px
-                padding-top: 3px
-                padding-bottom: 3px
-                padding-left: 0 !important
-                padding-right: 0 !important
-                transform: translateY(-50%)
+                height: 2px
                 cursor: ns-resize
 
             .j
                 right: 0
                 top: 0
                 height: 100% !important
-                width: 8px
-                padding-top: 0 !important
-                padding-bottom: 0 !important
-                padding-left: 3px
-                padding-right: 3px
-                transform: translateX(50%)
+                width: 2px
                 cursor: ew-resize
 
             .k
                 bottom: 0
                 left: 0
                 width: 100% !important
-                height: 8px
-                padding-top: 3px
-                padding-bottom: 3px
-                padding-left: 0 !important
-                padding-right: 0 !important
-                transform: translateY(50%)
+                height: 2px
                 cursor: ns-resize
 
             .l
                 left: 0
                 top: 0
                 height: 100% !important
-                width: 8px
-                padding-top: 0 !important
-                padding-bottom: 0 !important
-                padding-left: 3px
-                padding-right: 3px
-                transform: translateX(-50%)
+                width: 2px
                 cursor: ew-resize

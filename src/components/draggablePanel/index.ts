@@ -73,6 +73,11 @@ export default markRaw(defineComponent({
             type    : Number as PropType<number>,
             default : 10,
         },
+        chartId      : {
+            required: false,
+            type    : Number as PropType<number>,
+            default : 0,
+        },
     },
     emits: [
         'canvas-scale',
@@ -97,6 +102,8 @@ export default markRaw(defineComponent({
         const point             = ref<Position>({ x: 0, y: 0 })
         const lastPointermove   = ref<Position>({ x: 0, y: 0 })
         const chartPosition     = ref<Position>({ x: 0, y: 0 })
+        const dragend           = ref<boolean>(false)
+        let selectedChart       = ref<number>(0)
 
         const canvasStyleComputed = computed(() => ({
             ...props.canvasStyle,
@@ -122,6 +129,19 @@ export default markRaw(defineComponent({
                         'height'   : height + 'px',
                         'transform': `translateX(${x}px) translateY(${y}px)`,
                         'z-index'  : 100 + index,
+                    },
+                }
+            }
+        })
+        const pointStyleComputed  = computed(() => {
+            return (chartItem: ChartItem) => {
+                const { width, height } = chartItem
+                const display           = (selectedChart.value === chartItem.id && !props.lock) ? 'block' : 'none'
+                return {
+                    ...{
+                        'width' : width + 'px',
+                        'height': height + 'px',
+                        display,
                     },
                 }
             }
@@ -223,6 +243,14 @@ export default markRaw(defineComponent({
         }
 
         /**
+         * Panel Pointer Down
+         * @param event
+         */
+        const panelPointerDown = (event: PointerEvent) => {
+            if (event.srcElement === container.value || event.srcElement === canvas.value) selectedChart.value = 0
+        }
+
+        /**
          * Pointer down
          * @param event
          */
@@ -273,66 +301,31 @@ export default markRaw(defineComponent({
         }
 
         /**
-         * Set chart position
-         * @param event
+         * chart move pointer down
          */
-        const setChartPosition = (event: MouseEvent) => {
-            chartPosition.value = {
-                x: event.clientX,
-                y: event.clientY,
+        const chartMovePointerDown = (event: PointerEvent, chart: ChartItem) => {
+            if (canvasStatusMove.value || props.lock) return
+
+            selectedChart.value = chart.id as number
+
+            movingChart.value      = chart
+            chartPosition.value    = {
+                x: event.clientX - chart.x * scale.value,
+                y: event.clientY - chart.y * scale.value,
             }
-        }
+            document.onpointermove = (ev: PointerEvent) => {
+                if (!movingChart.value) return false
+                ev.preventDefault()
+                const { clientX, clientY } = ev
 
-        /**
-         * Chart move/resize start
-         * @param event
-         * @param chart
-         */
-        const chartDragstart = (event: DragEvent, chart: ChartItem) => {
-            if (!event.dataTransfer) return
+                const offsetX = (clientX - chartPosition.value.x) / scale.value
+                const offsetY = (clientY - chartPosition.value.y) / scale.value
 
-            hideDragImage(event.dataTransfer)
-
-            movingChart.value = chart
-        }
-
-        /**
-         * Resize start
-         * @param event
-         * @param chart
-         * @param direction
-         */
-        const resizeStart = (event: DragEvent, chart: ChartItem, direction: string) => {
-            event.stopPropagation()
-
-            if (!event.dataTransfer) return
-
-            hideDragImage(event.dataTransfer)
-
-            resizingChart.value   = chart
-            resizeDirection.value = direction
-        }
-
-        /**
-         * Dragover over container (move/resize)
-         * @param event
-         */
-        const dragoverContainer = (event: DragEvent) => {
-            event.preventDefault()
-
-            const { clientX, clientY } = event
-            const offsetX              = (clientX - chartPosition.value.x) / scale.value
-            const offsetY              = (clientY - chartPosition.value.y) / scale.value
-
-            chartPosition.value = { x: clientX, y: clientY }
-
-            if (movingChart.value) {
-                const { width, height, x, y } = movingChart.value
-                const maxX                    = props.width - width
-                const maxY                    = props.height - height
-
-                let newX = x + offsetX
-                let newY = y + offsetY
+                const { width, height } = movingChart.value
+                const maxX              = props.width - width
+                const maxY              = props.height - height
+                let newX                = offsetX
+                let newY                = offsetY
 
                 if (newX < 0) newX = 0
                 if (newY < 0) newY = 0
@@ -342,8 +335,49 @@ export default markRaw(defineComponent({
                 movingChart.value.x = newX
                 movingChart.value.y = newY
             }
+        }
 
-            if (resizingChart.value) {
+        /**
+         * chart move pointer up
+         */
+        const chartMovePointerUp = () => {
+            document.onpointermove = null
+            movingChart.value      = null
+        }
+
+        /**
+         * chart move cancel
+         */
+        const chartMoveCancel = () => {
+            document.onpointermove = null
+            movingChart.value      = null
+        }
+
+        /**
+         * resize pointer down
+         */
+        const resizePointerDown = (event: DragEvent, chart: ChartItem, direction: string) => {
+            event.stopPropagation()
+            if (canvasStatusMove.value) return
+
+            const chartWidth      = chart.width
+            const chartHeight     = chart.height
+            const chartX          = chart.x
+            const chartY          = chart.y
+            resizingChart.value   = chart
+            resizeDirection.value = direction
+            chartPosition.value   = {
+                x: event.clientX,
+                y: event.clientY,
+            }
+
+            document.onpointermove = (ev: PointerEvent) => {
+                if (!resizingChart.value) return false
+
+                const { clientX, clientY } = ev
+                const offsetX              = (clientX - chartPosition.value.x) / scale.value
+                const offsetY              = (clientY - chartPosition.value.y) / scale.value
+
                 const { width, height, x, y } = resizingChart.value
                 const chartMaxWidth           = props.width - x
                 const chartMaxHeight          = props.height - y
@@ -354,19 +388,20 @@ export default markRaw(defineComponent({
                 let newX      = x
                 let newY      = y
 
-                const resizeWidth       = () => {
-                    newWidth += offsetX
+                const resizeWidth  = () => {
+                    newWidth = chartWidth + offsetX
                     if (newWidth < props.chartMinWidth) newWidth = width
                     if (newWidth > chartMaxWidth) newWidth = chartMaxWidth
                 }
-                const resizeHeight      = () => {
-                    newHeight += offsetY
+                const resizeHeight = () => {
+                    newHeight = chartHeight + offsetY
                     if (newHeight < props.chartMinHeight) newHeight = height
                     if (newHeight > chartMaxHeight) newHeight = chartMaxHeight
                 }
+
                 const resizeWidthWithX  = () => {
-                    newX     = x + offsetX
-                    newWidth = width - offsetX
+                    newX     = chartX + offsetX
+                    newWidth = chartWidth - offsetX
 
                     if (newX < 0) {
                         newX     = 0
@@ -379,8 +414,8 @@ export default markRaw(defineComponent({
                     }
                 }
                 const resizeHeightWithY = () => {
-                    newY      = y + offsetY
-                    newHeight = height - offsetY
+                    newY      = chartY + offsetY
+                    newHeight = chartHeight - offsetY
 
                     if (newY < 0) {
                         newY      = 0
@@ -426,32 +461,38 @@ export default markRaw(defineComponent({
         }
 
         /**
+         * resize pointer up
+         */
+        const resizePointerUp = () => {
+            document.onpointermove = null
+            resizingChart.value    = null
+        }
+
+        /**
+         * Dragover over container (move/resize)
+         * @param event
+         */
+        const dragoverContainer = (event: DragEvent) => {
+            event.preventDefault()
+
+            const { clientX, clientY } = event
+            chartPosition.value        = { x: clientX, y: clientY }
+        }
+
+        /**
          * Drop in canvas
          * @param event
          */
         const dropInCanvas = (event: DragEvent) => {
             if (movingChart.value || resizingChart.value) return
 
+            dragend.value = true
             outCanvasDragover.value = false
 
             ctx.emit('canvas-drop', event, {
                 x: event.offsetX,
                 y: event.offsetY,
             })
-        }
-
-        /**
-         * Chart move/resize end
-         */
-        const chartDragend = () => {
-            container.value.focus()
-
-            movingChart.value   = null
-            resizingChart.value = null
-
-            document
-                .querySelectorAll('.draggable-panel canvas[data-action="empty"]')
-                .forEach(item => item.remove())
         }
 
         /**
@@ -466,26 +507,8 @@ export default markRaw(defineComponent({
         /**
          * Drag in from outside the canvas cancel
          */
-        const dragleaveCanvas = () => {
-            outCanvasDragover.value = false
-        }
-
-        /**
-         * Hide dragImage
-         * @param dataTransfer
-         */
-        function hideDragImage (dataTransfer: DataTransfer) {
-            const empty = document.createElement('canvas')
-
-            empty.width  = 0
-            empty.height = 0
-            empty.setAttribute('data-action', 'empty')
-
-            container.value.appendChild(empty)
-
-            dataTransfer.setDragImage(empty, 0, 0)
-            dataTransfer.dropEffect    = 'move'
-            dataTransfer.effectAllowed = 'move'
+        const dragleaveCanvas = (event) => {
+            if (canvas.value === event.srcElement) outCanvasDragover.value = false
         }
 
         /**
@@ -520,14 +543,13 @@ export default markRaw(defineComponent({
 
             pointDirectionList.forEach(direction => {
                 resizableList.push(h('div', {
-                    class      : [
+                    class: [
                         'resizable-point',
                         direction,
                     ],
-                    key        : direction,
-                    tabindex   : -1,
-                    draggable  : true,
-                    onDragstart: event => resizeStart(event, chartItem, direction),
+                    key  : direction,
+                    onPointerdown: event => resizePointerDown(event, chartItem, direction),
+                    onPointerup  : resizePointerUp,
                 }))
             })
 
@@ -543,14 +565,13 @@ export default markRaw(defineComponent({
 
             lineDirectionList.forEach(direction => {
                 resizableList.push(h('div', {
-                    class      : [
+                    class: [
                         'resizable-line',
                         direction,
                     ],
-                    key        : direction,
-                    tabindex   : -1,
-                    draggable  : true,
-                    onDragstart: event => resizeStart(event, chartItem, direction),
+                    key  : direction,
+                    onPointerdown: event => resizePointerDown(event, chartItem, direction),
+                    onPointerup  : resizePointerUp,
                 }))
             })
 
@@ -562,6 +583,11 @@ export default markRaw(defineComponent({
          */
         function createChartList () {
             const chartList = []
+
+            if (dragend.value) {
+                selectedChart.value = props.chartId
+                dragend.value = false
+            }
 
             props.data.forEach((item, index) => {
 
@@ -585,11 +611,9 @@ export default markRaw(defineComponent({
                     key        : item.id,
                     style      : chartStyleComputed.value(item, index),
                     ['data-id']: item.id,
-                    tabindex   : -1,
-                    draggable  : !props.lock,
-                    onMousedown: setChartPosition,
-                    onDragstart: event => chartDragstart(event, item),
-                    onDragend  : chartDragend,
+                    onPointerdown  : event => chartMovePointerDown(event, item),
+                    onPointerup    : chartMovePointerUp,
+                    onPointercancel: chartMoveCancel,
                 }, [
                     h('div', {
                         class: ['content'],
@@ -599,6 +623,7 @@ export default markRaw(defineComponent({
                     ]),
                     h('div', {
                         class: ['resizable'],
+                        style: pointStyleComputed.value(item),
                     }, createResizableList(item)),
                 ]))
             })
@@ -646,8 +671,9 @@ export default markRaw(defineComponent({
 
                     if (code === 'space') canvasStatusMove.value = false
                 },
-                onwheel   : scaleByWheel,
-                onDragover: dragoverContainer,
+                onPointerdown: panelPointerDown,
+                onwheel      : scaleByWheel,
+                onDragover   : dragoverContainer,
             }, h('div', {
                 ref            : canvas,
                 class          : [

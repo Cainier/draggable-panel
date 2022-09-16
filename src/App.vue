@@ -12,6 +12,7 @@
                          :scale-min="0.5"
                          :scale-max="10"
                          :lock="false"
+                         :chartId = 'chartId'
                          @canvas-scale="canvasScale"
                          @canvas-drop="dropInCanvas">
             <template #chart="{ chart, index }">
@@ -66,12 +67,14 @@ export default defineComponent({
         const canvasHeight = ref(1080)
         const chartList    = ref([])
         const offset       = reactive({ x: 0, y: 0 })
+        const chartId      = ref(0)
 
         return {
             canvasWidth,
             canvasHeight,
             chartList,
             offset,
+            chartId,
         }
     },
     created() {
@@ -107,8 +110,9 @@ export default defineComponent({
         dropInCanvas(event, position) {
             console.info('[Event]', 'canvas-drop', event, position)
 
+            this.chartId = Number((Math.random() * 10 ** 4).toFixed(0))
             this.chartList.push({
-                id    : Number((Math.random() * 10 ** 4).toFixed(0)),
+                id    : this.chartId,
                 width : 300,
                 height: 200,
                 x     : position.x - this.offset.x,
