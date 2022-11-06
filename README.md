@@ -112,7 +112,7 @@ yarn add draggable-panel
         - scale: Number
             - Description: Scale ratio
 
-* @canvas-drop -> function(x, y)
+* @canvas-drop -> function(event, position)
     - Description: Drag and drop element from outside the draggable-panel to the canvas
     - Parameters:
         - event: DragEvent
@@ -122,6 +122,18 @@ yarn add draggable-panel
                 - Description: Canvas position X
             - y: number
                 - Description: Canvas position Y
+
+* @chart-move -> function(chartItem)
+    - Description: Emitted when canvas chart move
+    - Parameters:
+        - chartItem: Object
+            - Description: Chart object in chart array
+
+* @chart-scale -> function(chartItem)
+    - Description: Emitted when canvas chart scale
+    - Parameters:
+        - chartItem: Object
+            - Description: Chart object in chart array
 
 ### Slots
 

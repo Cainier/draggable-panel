@@ -73,7 +73,7 @@ export default markRaw(defineComponent({
             type    : Number as PropType<number>,
             default : 10,
         },
-        chartId      : {
+        chartId       : {
             required: false,
             type    : Number as PropType<number>,
             default : 0,
@@ -82,6 +82,8 @@ export default markRaw(defineComponent({
     emits: [
         'canvas-scale',
         'canvas-drop',
+        'chart-move',
+        'chart-scale',
     ],
     setup (props, ctx) {
         const container         = ref<HTMLElement | null>(null)
@@ -98,12 +100,14 @@ export default markRaw(defineComponent({
         const resizeDirection   = ref<string>('')
         const movingChart       = ref<ChartItem | null>(null)
         const resizingChart     = ref<ChartItem | null>(null)
+        const originalChart     = ref<ChartItem | null>(null)
         const diff              = ref<Position>({ x: 0, y: 0 })
         const point             = ref<Position>({ x: 0, y: 0 })
         const lastPointermove   = ref<Position>({ x: 0, y: 0 })
         const chartPosition     = ref<Position>({ x: 0, y: 0 })
         const dragend           = ref<boolean>(false)
-        let selectedChart       = ref<number>(0)
+
+        let selectedChart = ref<number>(0)
 
         const canvasStyleComputed = computed(() => ({
             ...props.canvasStyle,
@@ -308,11 +312,20 @@ export default markRaw(defineComponent({
 
             selectedChart.value = chart.id as number
 
-            movingChart.value      = chart
-            chartPosition.value    = {
+            movingChart.value   = chart
+            chartPosition.value = {
                 x: event.clientX - chart.x * scale.value,
                 y: event.clientY - chart.y * scale.value,
             }
+
+            originalChart.value = {
+                id    : chart.id,
+                x     : chart.x,
+                y     : chart.y,
+                width : chart.width,
+                height: chart.height,
+            }
+
             document.onpointermove = (ev: PointerEvent) => {
                 if (!movingChart.value) return false
                 ev.preventDefault()
@@ -340,9 +353,11 @@ export default markRaw(defineComponent({
         /**
          * chart move pointer up
          */
-        const chartMovePointerUp = () => {
+        const chartMovePointerUp = (event, item) => {
             document.onpointermove = null
             movingChart.value      = null
+
+            if (originalChart.value.x !== item.x || originalChart.value.y !== item.y) ctx.emit('chart-move', item)
         }
 
         /**
@@ -358,6 +373,7 @@ export default markRaw(defineComponent({
          */
         const resizePointerDown = (event: DragEvent, chart: ChartItem, direction: string) => {
             event.stopPropagation()
+
             if (canvasStatusMove.value) return
 
             const chartWidth      = chart.width
@@ -369,6 +385,14 @@ export default markRaw(defineComponent({
             chartPosition.value   = {
                 x: event.clientX,
                 y: event.clientY,
+            }
+
+            originalChart.value = {
+                id    : chart.id,
+                x     : chart.x,
+                y     : chart.y,
+                width : chart.width,
+                height: chart.height,
             }
 
             document.onpointermove = (ev: PointerEvent) => {
@@ -463,9 +487,16 @@ export default markRaw(defineComponent({
         /**
          * resize pointer up
          */
-        const resizePointerUp = () => {
+        const resizePointerUp = (event, item) => {
+            event.stopPropagation()
+
             document.onpointermove = null
             resizingChart.value    = null
+
+            if (originalChart.value.x !== item.x
+                || originalChart.value.y !== item.y
+                || originalChart.value.width !== item.width
+                || originalChart.value.height !== item.height) ctx.emit('chart-scale', item)
         }
 
         /**
@@ -486,7 +517,7 @@ export default markRaw(defineComponent({
         const dropInCanvas = (event: DragEvent) => {
             if (movingChart.value || resizingChart.value) return
 
-            dragend.value = true
+            dragend.value           = true
             outCanvasDragover.value = false
 
             ctx.emit('canvas-drop', event, {
@@ -543,13 +574,13 @@ export default markRaw(defineComponent({
 
             pointDirectionList.forEach(direction => {
                 resizableList.push(h('div', {
-                    class: [
+                    class        : [
                         'resizable-point',
                         direction,
                     ],
-                    key  : direction,
+                    key          : direction,
                     onPointerdown: event => resizePointerDown(event, chartItem, direction),
-                    onPointerup  : resizePointerUp,
+                    onPointerup  : event => resizePointerUp(event, chartItem),
                 }))
             })
 
@@ -565,13 +596,13 @@ export default markRaw(defineComponent({
 
             lineDirectionList.forEach(direction => {
                 resizableList.push(h('div', {
-                    class: [
+                    class        : [
                         'resizable-line',
                         direction,
                     ],
-                    key  : direction,
+                    key          : direction,
                     onPointerdown: event => resizePointerDown(event, chartItem, direction),
-                    onPointerup  : resizePointerUp,
+                    onPointerup  : event => resizePointerUp(event, chartItem),
                 }))
             })
 
@@ -586,7 +617,7 @@ export default markRaw(defineComponent({
 
             if (dragend.value) {
                 selectedChart.value = props.chartId
-                dragend.value = false
+                dragend.value       = false
             }
 
             props.data.forEach((item, index) => {
@@ -603,16 +634,16 @@ export default markRaw(defineComponent({
                     : null
 
                 chartList.push(h('div', {
-                    class      : [
+                    class          : [
                         'chart-item',
                         movingChart.value?.id === item.id ? 'moving' : '',
                         resizingChart.value?.id === item.id ? 'resizing' : '',
                     ],
-                    key        : item.id,
-                    style      : chartStyleComputed.value(item, index),
-                    ['data-id']: item.id,
+                    key            : item.id,
+                    style          : chartStyleComputed.value(item, index),
+                    ['data-id']    : item.id,
                     onPointerdown  : event => chartMovePointerDown(event, item),
-                    onPointerup    : chartMovePointerUp,
+                    onPointerup    : event => chartMovePointerUp(event, item),
                     onPointercancel: chartMoveCancel,
                 }, [
                     h('div', {
@@ -631,13 +662,24 @@ export default markRaw(defineComponent({
             return chartList
         }
 
+        /**
+         * Catch Event mouseup
+         */
+        function catchMouseup () {
+            document.onpointermove = null
+            resizingChart.value    = null
+            movingChart.value      = null
+        }
+
         onMounted(() => {
             init()
             window.addEventListener('resize', init)
+            window.addEventListener('mouseup', catchMouseup)
         })
 
         onBeforeUnmount(() => {
             window.removeEventListener('resize', init)
+            window.removeEventListener('mouseup', catchMouseup)
         })
 
         return () => [

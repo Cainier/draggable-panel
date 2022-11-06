@@ -12,9 +12,11 @@
                          :scale-min="0.5"
                          :scale-max="10"
                          :lock="false"
-                         :chartId = 'chartId'
+                         :chartId='chartId'
                          @canvas-scale="canvasScale"
-                         @canvas-drop="dropInCanvas">
+                         @canvas-drop="dropInCanvas"
+                         @chart-move="chartMove"
+                         @chart-scale="chartScale">
             <template #chart="{ chart, index }">
                 <div style="padding: 16px">
                     ID: {{ chart.id }} (default)
@@ -121,6 +123,12 @@ export default defineComponent({
         },
         canvasScale(scale) {
             console.info('[Event]', 'canvas-scale', scale)
+        },
+        chartMove(item) {
+            console.info('[Event]', 'chart-move', item)
+        },
+        chartScale(item) {
+            console.info('[Event]', 'chart-scale', item)
         },
     },
 })

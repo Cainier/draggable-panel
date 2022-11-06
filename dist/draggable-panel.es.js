@@ -15,7 +15,7 @@ var __spreadValues = (a, b) => {
   return a;
 };
 import { markRaw, defineComponent, ref, computed, watch, onMounted, onBeforeUnmount, h } from "vue";
-var index$1 = /* @__PURE__ */ (() => '.draggable-panel{position:relative;width:100%;height:100%;overflow:hidden;background:#EEEEEE;outline:none;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}.draggable-panel *{outline:none}.draggable-panel.lock .chart-item:hover{filter:none}.draggable-panel.lock .chart-item .resizable{display:none!important}.draggable-panel .canvas{position:relative;background:#FFFFFF;box-shadow:0 5px 130px #00000026}.draggable-panel .canvas.moving{cursor:move}.draggable-panel .canvas:after{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(25,118,210,.3);visibility:hidden;opacity:0;transition:all .3s;z-index:10000}.draggable-panel .canvas.out-canvas-dragover:after{visibility:visible;opacity:1}.draggable-panel .chart-item{position:absolute;background:rgba(25,118,210,.3);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}.draggable-panel .chart-item .content{position:relative;width:100%;height:100%;overflow:hidden;z-index:10}.draggable-panel .chart-item:hover{filter:brightness(1.05)}.draggable-panel .chart-item:hover .resizable{display:block}.draggable-panel .chart-item.moving .resizable-point{display:none!important}.draggable-panel .chart-item.resizing .resizable{display:block}.draggable-panel .chart-item .resizable{display:none}.draggable-panel .chart-item .resizable .resizable-point{position:absolute;width:16px;height:16px;display:flex;flex-direction:row;justify-content:center;align-items:center;z-index:20}.draggable-panel .chart-item .resizable .resizable-point:after{content:"";display:block;width:8px;height:8px;border:2px solid #1976D2;background:#FFFFFF}.draggable-panel .chart-item .resizable .resizable-line{position:absolute;box-sizing:border-box;z-index:10}.draggable-panel .chart-item .resizable .resizable-line:after{content:"";display:block;width:100%;height:100%;background:#1976D2}.draggable-panel .chart-item .resizable .a{top:0;left:0;transform:translate(-50%,-50%);cursor:nwse-resize}.draggable-panel .chart-item .resizable .b{top:0;right:0;transform:translate(50%,-50%);cursor:nesw-resize}.draggable-panel .chart-item .resizable .c{bottom:0;right:0;transform:translate(50%,50%);cursor:nwse-resize}.draggable-panel .chart-item .resizable .d{bottom:0;left:0;transform:translate(-50%,50%);cursor:nesw-resize}.draggable-panel .chart-item .resizable .e,.draggable-panel .chart-item .resizable .f,.draggable-panel .chart-item .resizable .g,.draggable-panel .chart-item .resizable .h{pointer-events:none}.draggable-panel .chart-item .resizable .e{top:0;left:50%;margin-left:-8px;transform:translateY(-50%)}.draggable-panel .chart-item .resizable .f{top:50%;right:0;margin-top:-8px;transform:translate(50%)}.draggable-panel .chart-item .resizable .g{bottom:0;left:50%;margin-left:-8px;transform:translateY(50%)}.draggable-panel .chart-item .resizable .h{left:0;top:50%;margin-top:-8px;transform:translate(-50%)}.draggable-panel .chart-item .resizable .i{top:0;left:0;width:100%!important;height:8px;padding-top:3px;padding-bottom:3px;padding-left:0!important;padding-right:0!important;transform:translateY(-50%);cursor:ns-resize}.draggable-panel .chart-item .resizable .j{right:0;top:0;height:100%!important;width:8px;padding-top:0!important;padding-bottom:0!important;padding-left:3px;padding-right:3px;transform:translate(50%);cursor:ew-resize}.draggable-panel .chart-item .resizable .k{bottom:0;left:0;width:100%!important;height:8px;padding-top:3px;padding-bottom:3px;padding-left:0!important;padding-right:0!important;transform:translateY(50%);cursor:ns-resize}.draggable-panel .chart-item .resizable .l{left:0;top:0;height:100%!important;width:8px;padding-top:0!important;padding-bottom:0!important;padding-left:3px;padding-right:3px;transform:translate(-50%);cursor:ew-resize}\n')();
+var index$1 = /* @__PURE__ */ (() => '.draggable-panel{position:relative;width:100%;height:100%;overflow:hidden;background:#EEEEEE;outline:none;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}.draggable-panel *{outline:none}.draggable-panel.lock .chart-item:hover{filter:none}.draggable-panel .canvas{position:relative;background:#FFFFFF;box-shadow:0 5px 130px #00000026}.draggable-panel .canvas.moving{cursor:move}.draggable-panel .canvas:after{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(25,118,210,.3);visibility:hidden;opacity:0;transition:all .3s;z-index:10000}.draggable-panel .canvas.out-canvas-dragover:after{visibility:visible;opacity:1}.draggable-panel .chart-item{position:absolute;background:rgba(25,118,210,.3);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}.draggable-panel .chart-item .content{position:relative;width:100%;height:100%;overflow:hidden;z-index:10}.draggable-panel .chart-item:hover{filter:brightness(1.05)}.draggable-panel .chart-item.moving .resizable-point{display:none!important}.draggable-panel .chart-item .resizable{left:0;top:0;position:absolute}.draggable-panel .chart-item .resizable .resizable-point{position:absolute;width:16px;height:16px;display:flex;flex-direction:row;justify-content:center;align-items:center;z-index:20}.draggable-panel .chart-item .resizable .resizable-point:after{content:"";display:block;width:8px;height:8px;border:2px solid #1976D2;background:#FFFFFF}.draggable-panel .chart-item .resizable .resizable-line{position:absolute;box-sizing:border-box;z-index:10}.draggable-panel .chart-item .resizable .resizable-line:after{content:"";display:block;width:100%;height:100%;background:#1976D2}.draggable-panel .chart-item .resizable .a{top:0;left:0;transform:translate(-50%,-50%);cursor:nwse-resize}.draggable-panel .chart-item .resizable .b{top:0;right:0;transform:translate(50%,-50%);cursor:nesw-resize}.draggable-panel .chart-item .resizable .c{bottom:0;right:0;transform:translate(50%,50%);cursor:nwse-resize}.draggable-panel .chart-item .resizable .d{bottom:0;left:0;transform:translate(-50%,50%);cursor:nesw-resize}.draggable-panel .chart-item .resizable .e,.draggable-panel .chart-item .resizable .f,.draggable-panel .chart-item .resizable .g,.draggable-panel .chart-item .resizable .h{pointer-events:none}.draggable-panel .chart-item .resizable .e{top:0;left:50%;margin-left:-8px;transform:translateY(-50%)}.draggable-panel .chart-item .resizable .f{top:50%;right:0;margin-top:-8px;transform:translate(50%)}.draggable-panel .chart-item .resizable .g{bottom:0;left:50%;margin-left:-8px;transform:translateY(50%)}.draggable-panel .chart-item .resizable .h{left:0;top:50%;margin-top:-8px;transform:translate(-50%)}.draggable-panel .chart-item .resizable .i{top:0;left:0;width:100%!important;height:2px;cursor:ns-resize}.draggable-panel .chart-item .resizable .j{right:0;top:0;height:100%!important;width:2px;cursor:ew-resize}.draggable-panel .chart-item .resizable .k{bottom:0;left:0;width:100%!important;height:2px;cursor:ns-resize}.draggable-panel .chart-item .resizable .l{left:0;top:0;height:100%!important;width:2px;cursor:ew-resize}\n')();
 var index = markRaw(defineComponent({
   name: "draggable-panel",
   props: {
@@ -70,11 +70,18 @@ var index = markRaw(defineComponent({
       required: false,
       type: Number,
       default: 10
+    },
+    chartId: {
+      required: false,
+      type: Number,
+      default: 0
     }
   },
   emits: [
     "canvas-scale",
-    "canvas-drop"
+    "canvas-drop",
+    "chart-move",
+    "chart-scale"
   ],
   setup(props, ctx) {
     const container = ref(null);
@@ -91,10 +98,13 @@ var index = markRaw(defineComponent({
     const resizeDirection = ref("");
     const movingChart = ref(null);
     const resizingChart = ref(null);
+    const originalChart = ref(null);
     const diff = ref({ x: 0, y: 0 });
     const point = ref({ x: 0, y: 0 });
     const lastPointermove = ref({ x: 0, y: 0 });
     const chartPosition = ref({ x: 0, y: 0 });
+    const dragend = ref(false);
+    let selectedChart = ref(0);
     const canvasStyleComputed = computed(() => __spreadValues(__spreadValues({}, props.canvasStyle), {
       "width": props.width + "px",
       "height": props.height + "px",
@@ -111,6 +121,17 @@ var index = markRaw(defineComponent({
           "height": height + "px",
           "transform": `translateX(${x}px) translateY(${y}px)`,
           "z-index": 100 + index2
+        });
+      };
+    });
+    const pointStyleComputed = computed(() => {
+      return (chartItem) => {
+        const { width, height } = chartItem;
+        const display = selectedChart.value === chartItem.id && !props.lock ? "block" : "none";
+        return __spreadValues({}, {
+          "width": width + "px",
+          "height": height + "px",
+          display
         });
       };
     });
@@ -173,6 +194,10 @@ var index = markRaw(defineComponent({
       canvasX.value = (offsetWidth - props.width) / 2;
       canvasY.value = (offsetHeight - props.height) / 2;
     };
+    const panelPointerDown = (event) => {
+      if (event.srcElement === container.value || event.srcElement === canvas.value)
+        selectedChart.value = 0;
+    };
     const pointerDown = (event) => {
       if (!canvasStatusMove.value || props.lock)
         return;
@@ -200,38 +225,34 @@ var index = markRaw(defineComponent({
     const pointerCancel = () => {
       pointerPressed.value = false;
     };
-    const setChartPosition = (event) => {
-      chartPosition.value = {
-        x: event.clientX,
-        y: event.clientY
-      };
-    };
-    const chartDragstart = (event, chart) => {
-      if (!event.dataTransfer)
+    const chartMovePointerDown = (event, chart) => {
+      if (canvasStatusMove.value || props.lock)
         return;
-      hideDragImage(event.dataTransfer);
+      selectedChart.value = chart.id;
       movingChart.value = chart;
-    };
-    const resizeStart = (event, chart, direction) => {
-      event.stopPropagation();
-      if (!event.dataTransfer)
-        return;
-      hideDragImage(event.dataTransfer);
-      resizingChart.value = chart;
-      resizeDirection.value = direction;
-    };
-    const dragoverContainer = (event) => {
-      event.preventDefault();
-      const { clientX, clientY } = event;
-      const offsetX = (clientX - chartPosition.value.x) / scale.value;
-      const offsetY = (clientY - chartPosition.value.y) / scale.value;
-      chartPosition.value = { x: clientX, y: clientY };
-      if (movingChart.value) {
-        const { width, height, x, y } = movingChart.value;
+      chartPosition.value = {
+        x: event.clientX - chart.x * scale.value,
+        y: event.clientY - chart.y * scale.value
+      };
+      originalChart.value = {
+        id: chart.id,
+        x: chart.x,
+        y: chart.y,
+        width: chart.width,
+        height: chart.height
+      };
+      document.onpointermove = (ev) => {
+        if (!movingChart.value)
+          return false;
+        ev.preventDefault();
+        const { clientX, clientY } = ev;
+        const offsetX = (clientX - chartPosition.value.x) / scale.value;
+        const offsetY = (clientY - chartPosition.value.y) / scale.value;
+        const { width, height } = movingChart.value;
         const maxX = props.width - width;
         const maxY = props.height - height;
-        let newX = x + offsetX;
-        let newY = y + offsetY;
+        let newX = offsetX;
+        let newY = offsetY;
         if (newX < 0)
           newX = 0;
         if (newY < 0)
@@ -242,33 +263,70 @@ var index = markRaw(defineComponent({
           newY = maxY;
         movingChart.value.x = newX;
         movingChart.value.y = newY;
-      }
-      if (resizingChart.value) {
+      };
+    };
+    const chartMovePointerUp = (event, item) => {
+      document.onpointermove = null;
+      movingChart.value = null;
+      if (originalChart.value.x !== item.x || originalChart.value.y !== item.y)
+        ctx.emit("chart-move", item);
+    };
+    const chartMoveCancel = () => {
+      document.onpointermove = null;
+      movingChart.value = null;
+    };
+    const resizePointerDown = (event, chart, direction) => {
+      event.stopPropagation();
+      if (canvasStatusMove.value)
+        return;
+      const chartWidth = chart.width;
+      const chartHeight = chart.height;
+      const chartX = chart.x;
+      const chartY = chart.y;
+      resizingChart.value = chart;
+      resizeDirection.value = direction;
+      chartPosition.value = {
+        x: event.clientX,
+        y: event.clientY
+      };
+      originalChart.value = {
+        id: chart.id,
+        x: chart.x,
+        y: chart.y,
+        width: chart.width,
+        height: chart.height
+      };
+      document.onpointermove = (ev) => {
+        if (!resizingChart.value)
+          return false;
+        const { clientX, clientY } = ev;
+        const offsetX = (clientX - chartPosition.value.x) / scale.value;
+        const offsetY = (clientY - chartPosition.value.y) / scale.value;
         const { width, height, x, y } = resizingChart.value;
         const chartMaxWidth = props.width - x;
         const chartMaxHeight = props.height - y;
-        const direction = resizeDirection.value;
+        const direction2 = resizeDirection.value;
         let newWidth = width;
         let newHeight = height;
         let newX = x;
         let newY = y;
         const resizeWidth = () => {
-          newWidth += offsetX;
+          newWidth = chartWidth + offsetX;
           if (newWidth < props.chartMinWidth)
             newWidth = width;
           if (newWidth > chartMaxWidth)
             newWidth = chartMaxWidth;
         };
         const resizeHeight = () => {
-          newHeight += offsetY;
+          newHeight = chartHeight + offsetY;
           if (newHeight < props.chartMinHeight)
             newHeight = height;
           if (newHeight > chartMaxHeight)
             newHeight = chartMaxHeight;
         };
         const resizeWidthWithX = () => {
-          newX = x + offsetX;
-          newWidth = width - offsetX;
+          newX = chartX + offsetX;
+          newWidth = chartWidth - offsetX;
           if (newX < 0) {
             newX = 0;
             newWidth = width + x;
@@ -279,8 +337,8 @@ var index = markRaw(defineComponent({
           }
         };
         const resizeHeightWithY = () => {
-          newY = y + offsetY;
-          newHeight = height - offsetY;
+          newY = chartY + offsetY;
+          newHeight = chartHeight - offsetY;
           if (newY < 0) {
             newY = 0;
             newHeight = height + y;
@@ -290,67 +348,67 @@ var index = markRaw(defineComponent({
             newY = y;
           }
         };
-        if (direction === "a") {
+        if (direction2 === "a") {
           resizeWidthWithX();
           resizeHeightWithY();
         }
-        if (direction === "b") {
+        if (direction2 === "b") {
           resizeWidth();
           resizeHeightWithY();
         }
-        if (direction === "c") {
+        if (direction2 === "c") {
           resizeWidth();
           resizeHeight();
         }
-        if (direction === "d") {
+        if (direction2 === "d") {
           resizeWidthWithX();
           resizeHeight();
         }
-        if (direction === "i")
+        if (direction2 === "i")
           resizeHeightWithY();
-        if (direction === "j")
+        if (direction2 === "j")
           resizeWidth();
-        if (direction === "k")
+        if (direction2 === "k")
           resizeHeight();
-        if (direction === "l")
+        if (direction2 === "l")
           resizeWidthWithX();
         resizingChart.value.width = newWidth;
         resizingChart.value.height = newHeight;
         resizingChart.value.x = newX;
         resizingChart.value.y = newY;
-      }
+      };
+    };
+    const resizePointerUp = (event, item) => {
+      event.stopPropagation();
+      document.onpointermove = null;
+      resizingChart.value = null;
+      if (originalChart.value.x !== item.x || originalChart.value.y !== item.y || originalChart.value.width !== item.width || originalChart.value.height !== item.height)
+        ctx.emit("chart-scale", item);
+    };
+    const dragoverContainer = (event) => {
+      event.preventDefault();
+      const { clientX, clientY } = event;
+      chartPosition.value = { x: clientX, y: clientY };
     };
     const dropInCanvas = (event) => {
       if (movingChart.value || resizingChart.value)
         return;
+      dragend.value = true;
       outCanvasDragover.value = false;
       ctx.emit("canvas-drop", event, {
         x: event.offsetX,
         y: event.offsetY
       });
     };
-    const chartDragend = () => {
-      container.value.focus();
-      movingChart.value = null;
-      resizingChart.value = null;
-      document.querySelectorAll('.draggable-panel canvas[data-action="empty"]').forEach((item) => item.remove());
-    };
     const dragenterCanvas = () => {
       if (movingChart.value || resizingChart.value)
         return;
       outCanvasDragover.value = true;
     };
-    const dragleaveCanvas = () => {
-      outCanvasDragover.value = false;
+    const dragleaveCanvas = (event) => {
+      if (canvas.value === event.srcElement)
+        outCanvasDragover.value = false;
     };
-    function hideDragImage(dataTransfer) {
-      const empty = document.createElement("canvas");
-      empty.setAttribute("data-action", "empty");
-      container.value.appendChild(empty);
-      dataTransfer.setDragImage(empty, 0, 0);
-      dataTransfer.dropEffect = "move";
-      dataTransfer.effectAllowed = "move";
-    }
     function init() {
       const { offsetWidth, offsetHeight } = container.value;
       const defaultMaxWidth = offsetWidth - props.padding;
@@ -376,9 +434,8 @@ var index = markRaw(defineComponent({
             direction
           ],
           key: direction,
-          tabindex: -1,
-          draggable: true,
-          onDragstart: (event) => resizeStart(event, chartItem, direction)
+          onPointerdown: (event) => resizePointerDown(event, chartItem, direction),
+          onPointerup: (event) => resizePointerUp(event, chartItem)
         }));
       });
       resizablePointDirectionList.forEach((direction) => {
@@ -397,15 +454,18 @@ var index = markRaw(defineComponent({
             direction
           ],
           key: direction,
-          tabindex: -1,
-          draggable: true,
-          onDragstart: (event) => resizeStart(event, chartItem, direction)
+          onPointerdown: (event) => resizePointerDown(event, chartItem, direction),
+          onPointerup: (event) => resizePointerUp(event, chartItem)
         }));
       });
       return resizableList;
     }
     function createChartList() {
       const chartList = [];
+      if (dragend.value) {
+        selectedChart.value = props.chartId;
+        dragend.value = false;
+      }
       props.data.forEach((item, index2) => {
         var _a, _b;
         const defaultSlot = ctx.slots.chart({
@@ -425,11 +485,9 @@ var index = markRaw(defineComponent({
           key: item.id,
           style: chartStyleComputed.value(item, index2),
           ["data-id"]: item.id,
-          tabindex: -1,
-          draggable: !props.lock,
-          onMousedown: setChartPosition,
-          onDragstart: (event) => chartDragstart(event, item),
-          onDragend: chartDragend
+          onPointerdown: (event) => chartMovePointerDown(event, item),
+          onPointerup: (event) => chartMovePointerUp(event, item),
+          onPointercancel: chartMoveCancel
         }, [
           h("div", {
             class: ["content"]
@@ -438,18 +496,26 @@ var index = markRaw(defineComponent({
             customSlot
           ]),
           h("div", {
-            class: ["resizable"]
+            class: ["resizable"],
+            style: pointStyleComputed.value(item)
           }, createResizableList(item))
         ]));
       });
       return chartList;
     }
+    function catchMouseup() {
+      document.onpointermove = null;
+      resizingChart.value = null;
+      movingChart.value = null;
+    }
     onMounted(() => {
       init();
       window.addEventListener("resize", init);
+      window.addEventListener("mouseup", catchMouseup);
     });
     onBeforeUnmount(() => {
       window.removeEventListener("resize", init);
+      window.removeEventListener("mouseup", catchMouseup);
     });
     return () => [
       h("div", {
@@ -483,6 +549,7 @@ var index = markRaw(defineComponent({
           if (code === "space")
             canvasStatusMove.value = false;
         },
+        onPointerdown: panelPointerDown,
         onwheel: scaleByWheel,
         onDragover: dragoverContainer
       }, h("div", {
